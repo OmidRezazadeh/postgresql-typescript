@@ -1,0 +1,6 @@
+node_modules
+# ENV File
+.env
+src/Public/upload/images
+src/Public/upload/users
+src/Public/upload/posts

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                       /* Specify ECMAScript target version */
+    "module": "commonjs",                  /* Specify module system */
+    "strict": true,                        /* Enable all strict type-checking options */
+    "esModuleInterop": true,               /* Allow default imports from modules with no default export */
+    "skipLibCheck": true,                  /* Skip type checking of declaration files */
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",            /* Resolve modules using Node.js module resolution */
+    "resolveJsonModule": true,             /* Include modules imported with .json extension */
+    "sourceMap": true,                     /* Generate source maps for easier debugging */
+    "outDir": "./dist",                    /* Specify output directory */
+    "rootDir": "./src",                    /* Specify the root directory of input files */
+    "strictNullChecks": true,              /* Enable strict null checks */
+    "strictPropertyInitialization": true   /* Enable strict checking of property initialization */
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

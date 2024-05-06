@@ -46,7 +46,7 @@ passport.deserializeUser((obj: any, done) => {
 function isLoggedIn(req: Request, res: Response, next: NextFunction): void {
   req.user ? next() : res.sendStatus(401); 
 }
-// Auth Routes
+// Auth Routes    
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })

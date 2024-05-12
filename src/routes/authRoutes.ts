@@ -3,11 +3,11 @@ import passport from 'passport';
 import {AuthController} from '../controllers/authController';
 import {isLoggedIn} from "../middleware/LoggedInWithGoogle" 
 const router: Router = express.Router();
-router.get('/auth/home', AuthController.home);
-router.get('/auth/google',AuthController.googleAuth);
-router.get('/auth/google/callback', AuthController.googleAuthCallback);
-router.get('/auth/google/failure', AuthController.googleAuthFailure);
-router.get('/auth/google/success', isLoggedIn, AuthController.googleAuthSuccess);
+router.get('/auth/home', AuthController.home.bind(AuthController));
+router.get('/auth/google',AuthController.googleAuth.bind(AuthController));
+router.get('/auth/google/callback', AuthController.googleAuthCallback.bind(AuthController));
+router.get('/auth/google/failure', AuthController.googleAuthFailure.bind(AuthController));
+router.get('/auth/google/success', isLoggedIn, AuthController.googleAuthSuccess.bind(AuthController));
 router.get('/auth/logout', AuthController.logout);
 
 

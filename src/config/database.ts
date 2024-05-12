@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const {Sequelize} = require('sequelize');
 
 interface DBConfig {
     database: string;
@@ -26,15 +26,15 @@ const dbConfig: DBConfig = {
     }
 };
 
-const sequelize = new Sequelize(dbConfig);
+const connectDB = new Sequelize(dbConfig);
 
 // This function authenticates the connection to the database
 function authenticate() {
-    return sequelize.authenticate();
+    return connectDB.authenticate();
 }
 
 // Export the sequelize instance and the authenticate function
 module.exports = {
-    sequelize,
+    connectDB,
     authenticate
 };

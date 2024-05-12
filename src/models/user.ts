@@ -1,69 +1,76 @@
-const { Model, DataTypes }= require( 'sequelize');
-const  connectDB = require ('./config/database');
-
+import { Model, DataTypes, Sequelize } from 'sequelize';
+import Profile from './profile';
+// Define an interface for User attributes
 interface UserAttributes {
-  id: number;
-  firstName: string;
-  lastName: string;
+  id?: number;
+  name: string;
   email: string;
   password: string;
-  mobile: string;
-  updatedAt?: Date;
-  deletedAt?: Date;
-  createdAt?: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
+// Define the User model extending Model and implementing UserAttributes interface
 class User extends Model<UserAttributes> implements UserAttributes {
-  public id!: number;
-  public firstName!: string;
-  public lastName!: string;
-  public email!: string;
-  public mobile!: string;
-  public password!: string;
+  public id!: number; // Define id as a public property of type number
 
-  public readonly updatedAt!: Date;
+  public name!: string; // Define lastName as a public property of type string
+  public email!: string; // Define email as a public property of type string
+  public password!: string; // Define password as a public property of type string
+ 
+  // Timestamps - readonly ensures these properties cannot be modified
   public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+
+  // A static method to initialize the User model
+  static initialize(sequelize: Sequelize) {
+  
+    
+    User.init(
+      // Define model attributes
+      {
+        id: {
+          type: DataTypes.INTEGER, // Define id as an integer
+          autoIncrement: true, // Enable auto-increment
+          primaryKey: true, // Define it as primary key
+        },
+        name: {
+          type: DataTypes.STRING, // Define lastName as string
+          allowNull: false, // Disallow null values
+        },
+        email: {
+          type: DataTypes.STRING, // Define email as string
+          allowNull: false, // Disallow null values
+          unique: true, // Ensure email is unique
+        },
+        password: {
+          type: DataTypes.STRING, // Define password as string
+          allowNull: false, // Disallow null values
+        },
+        created_at: {
+          type: DataTypes.DATE, // Define createdAt as Date
+          allowNull: false, // Disallow null values
+        },
+        updated_at: {
+          type: DataTypes.DATE, // Define updatedAt as Date
+          allowNull: false, // Disallow null values
+        },
+      },
+      // Define model options
+      {
+        sequelize, // Pass the Sequelize instance
+        modelName: 'User', // Specify the model name
+        timestamps: true, // Enable timestamps
+        underscored: true, // Use snake_case for column names
+        tableName: 'Users',
+
+      }
+    );
+  }
+  static associate(models: { User: typeof User }) {
+    this.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
+  }
 }
 
-User.init(
-  {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.NUMBER,
-    },
-    firstName: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    lastName: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    email: {
-      allowNull: false,
-      unique: true,
-      type: DataTypes.STRING,
-    },
-    password: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    }, 
-
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-  },
-  {
-    sequelize: connectDB,
-    modelName: 'User',
-  }
-);
-
+// Export the User model
 export default User;

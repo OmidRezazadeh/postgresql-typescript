@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-const connectDB = require("./config/database");
+const  {connectDB} = require ('./config/database');
 import dotenv from "dotenv";
 import passport from "passport";
 import authRoutes from "./routes/authRoutes";

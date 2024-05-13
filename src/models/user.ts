@@ -19,8 +19,8 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public password!: string; // Define password as a public property of type string
  
   // Timestamps - readonly ensures these properties cannot be modified
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  public  created_at!: Date;
+  public  updated_at!: Date;
 
   // A static method to initialize the User model
   static initialize(sequelize: Sequelize) {
@@ -50,22 +50,25 @@ class User extends Model<UserAttributes> implements UserAttributes {
         created_at: {
           type: DataTypes.DATE, // Define createdAt as Date
           allowNull: false, // Disallow null values
+          defaultValue: DataTypes.NOW 
         },
         updated_at: {
           type: DataTypes.DATE, // Define updatedAt as Date
           allowNull: false, // Disallow null values
+          defaultValue: DataTypes.NOW 
         },
       },
       // Define model options
       {
         sequelize, // Pass the Sequelize instance
         modelName: 'User', // Specify the model name
-        timestamps: true, // Enable timestamps
+        timestamps: false, // Enable timestamps
         underscored: true, // Use snake_case for column names
         tableName: 'Users',
 
       }
     );
+ 
   }
   static associate(models: { User: typeof User }) {
     this.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });

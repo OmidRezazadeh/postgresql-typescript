@@ -1,11 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
 const  {connectDB} = require ('./config/database');
-import dotenv from "dotenv";
 import passport from "passport";
 import authRoutes from "./routes/authRoutes";
 import session from "express-session";
 import './config/auth';
 const app = express();
+import dotenv from "dotenv";
 app.use(express.json());
 dotenv.config();
 

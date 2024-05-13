@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import User from "../models/user";
 import { AuthRepository } from "../Repositories/AuthRepository";
-import { AuthService} from "../Services/AuthService";
-const  {connectDB, authenticate} = require ('../config/database');
-  class authController {
+import { AuthService } from "../Services/AuthService";
+const { connectDB, authenticate } = require("../config/database");
+class authController {
   private authService: AuthService;
   constructor(authService: AuthService) {
     this.authService = authService;
@@ -19,21 +19,30 @@ const  {connectDB, authenticate} = require ('../config/database');
     res.send("اهراز هویت با مشکل رو برو شد");
   };
 
-  async googleAuthSuccess  (req: Request, res: Response)  {
+  async googleAuthSuccess(req: Request, res: Response) {
     try {
       let users = req.user;
       const userDataArray = Array.isArray(users) ? users : [users];
-      const eamil = userDataArray[0].emails[0].value;
-      const exitsUser = await this.authService.findbyEmail(eamil);
-
-      if (exitsUser !== undefined) {
-        console.log("ok");
-      }else {
-        console.log("no")
+      const email = userDataArray[0].emails[0].value;
+      const name = userDataArray[0].displayName;
+      const exitsUser = await this.authService.findbyEmail(email);
+      let token = null;
+      let userId = null;
+      if (!exitsUser) {
+        const user = await this.authService.registerUser(email, name); // Await here
+        if (user) {
+          userId = user.id;
+          token = await this.authService.generateToken(userId, email, name);
+        }
+      } else {
+        userId = exitsUser.id;
+        token = await this.authService.generateToken(userId, email, name);
       }
+      res.send({
+        token: token,
+      });
     } catch (error) {
       console.log(error);
-
     }
   }
 
@@ -46,7 +55,6 @@ const  {connectDB, authenticate} = require ('../config/database');
       res.send("logout");
     });
   };
-
 }
 User.initialize(connectDB);
 authenticate();

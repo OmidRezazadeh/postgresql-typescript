@@ -28,23 +28,22 @@ class authController {
       const exitsUser = await this.authService.findbyEmail(email);
       let token = null;
       let userId = null;
+      let user: any = null;
+  
       if (!exitsUser) {
-        const user = await this.authService.registerUser(email, name); // Await here
-        if (user) {
-          userId = user.id;
-          token = await this.authService.generateToken(userId, email, name);
-        }
-      } else {
-        userId = exitsUser.id;
-        token = await this.authService.generateToken(userId, email, name);
+        user = await this.authService.registerUser(email, name); // Await here
+        userId = user.id;
       }
+      token = await this.authService.generateToken(userId, email, name);
       res.send({
         token: token,
       });
     } catch (error) {
       console.log(error);
+      res.status(500).send('Internal server error');
     }
   }
+  
 
   home = (req: Request, res: Response) => {
     res.send(`<h1>Home Page</h1> <a href="/auth/google">Login</a>`);

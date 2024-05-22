@@ -1,5 +1,6 @@
 const {Sequelize} = require('sequelize');
-
+import User from "../models/user";
+import Profile from "../models/profile";
 interface DBConfig {
     database: string;
     username: string;
@@ -26,7 +27,8 @@ const dbConfig: DBConfig = {
     }
 };
 const connectDB = new Sequelize(dbConfig);
-
+Profile.initialize(connectDB);
+User.initialize(connectDB); // Ensure User model is initialized
 // This function authenticates the connection to the database
 function authenticate() {
     return connectDB.authenticate();

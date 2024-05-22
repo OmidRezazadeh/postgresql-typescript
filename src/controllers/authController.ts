@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import passport from "passport";
-import User from "../models/user";
 import { AuthRepository } from "../Repositories/AuthRepository";
 import { ProfileRepository } from "../Repositories/ProfileRepository";
 import { AuthService } from "../Services/AuthService";
 import { ProfileService } from "../Services/ProfileService";
-import Profile from "../models/profile";
-const { connectDB, authenticate } = require("../config/database");
+
+const { connectDB} = require("../config/database");
 class authController {
   private authService: AuthService;
   private profileService: ProfileService;
@@ -68,9 +67,7 @@ class authController {
   };
 }
 
-User.initialize(connectDB);
-Profile.initialize(connectDB);
-authenticate();
+
 const authRepository = new AuthRepository();
 const authService = new AuthService(authRepository); // Initialize authService first
 const profileRepository = new ProfileRepository(); //

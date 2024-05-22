@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import passport from 'passport';
-import {AuthController} from '../controllers/authController';
+import {AuthController} from '../controllers/AuthController';
 import {isLoggedIn} from "../middleware/LoggedInWithGoogle" 
 const router: Router = express.Router();
 router.get('/auth/home', AuthController.home.bind(AuthController));

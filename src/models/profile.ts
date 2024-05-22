@@ -1,21 +1,21 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
-import User from "./user";
+import { Model, DataTypes, Sequelize } from 'sequelize';
+import User from './user';
 
 interface ProfileAttributes {
   id?: number;
-  userId: number;
-  image: string;
-  bio: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
+  user_id: number;
+  image?: string;
+  bio?: string;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date;
 }
 
 class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
   public id!: number;
-  public userId!: number; // Change UserId to userId
-  public image!: string;
-  public bio!: string;
+  public user_id!: number;
+  public image?: string;
+  public bio?: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
@@ -24,12 +24,12 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
     Profile.init(
       {
         id: {
-          type: DataTypes.INTEGER.UNSIGNED,
+          type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
         },
-        userId: { // Change UserId to userId
-          type: DataTypes.INTEGER.UNSIGNED,
+        user_id: {
+          type: DataTypes.INTEGER,
           allowNull: false,
         },
         image: {
@@ -40,33 +40,34 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
           type: DataTypes.STRING,
           allowNull: true,
         },
-        createdAt: {
+        created_at: {
           allowNull: false,
           type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
         },
-        updatedAt: {
+        updated_at: {
           allowNull: false,
           type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
         },
-        deletedAt: {
+        deleted_at: {
           allowNull: true,
           type: DataTypes.DATE,
         },
       },
-
       {
-        modelName: "Profile",
+        modelName: 'Profile',
         sequelize,
         timestamps: true,
         underscored: true,
-        tableName: "Profiles",
+        tableName: 'Profiles', // Ensure this matches your actual table name
         paranoid: true, // Enable soft deletion handling
       }
     );
   }
 
   static associate(models: { [key: string]: typeof Model }) {
-    this.belongsTo(User, { as: "user", foreignKey: "userId" });
+    this.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
   }
 }
 

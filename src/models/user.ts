@@ -13,7 +13,6 @@ interface UserAttributes {
 // Define the User model extending Model and implementing UserAttributes interface
 class User extends Model<UserAttributes> implements UserAttributes {
   public id!: number; // Define id as a public property of type number
-
   public name!: string; // Define lastName as a public property of type string
   public email!: string; // Define email as a public property of type string
   public password!: string; // Define password as a public property of type string
@@ -24,8 +23,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
 
   // A static method to initialize the User model
   static initialize(sequelize: Sequelize) {
-  
-    
+
     User.init(
       // Define model attributes
       {

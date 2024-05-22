@@ -6,12 +6,25 @@ export class AuthRepository implements AuthIfterface {
     const user = await User.findOne({ where: { email: email } });
     return user;
   }
-  async createUser(email: string, name: string, password: string) {
-    const user = await User.create({
-      email: email,
-      name: name,
-      password: password,
-    });
-    return user;
+  async createUser(
+    email: string,
+    name: string,
+    password: string,
+    transaction:any
+
+  ) {
+    try {
+      const user = await User.create(
+        {
+          email: email,
+          name: name,
+          password: password,
+        },
+        {transaction}
+      );
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
 }

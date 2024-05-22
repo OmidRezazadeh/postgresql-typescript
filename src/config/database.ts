@@ -18,14 +18,13 @@ const dbConfig: DBConfig = {
     username: "postgres",
     password: "admin",
     host: "localhost",
-    dialect: "postgres",
+    dialect:"postgres",
     pool: {
         max: 5,
         min: 0,
         idle: 10000
     }
 };
-
 const connectDB = new Sequelize(dbConfig);
 
 // This function authenticates the connection to the database

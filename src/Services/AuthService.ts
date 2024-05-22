@@ -17,10 +17,10 @@ export class AuthService {
       console.log(error);
     }
   }
-  async registerUser(email: string, name: string) {
+  async registerUser(email: string, name: string, transaction:any) {
     try {
       const password = await bcrypt.hash("password", 10);
-      const user = await this.authRepository.createUser(email, name, password);
+      const user = await this.authRepository.createUser(email, name, password,transaction);
       if(user){
       return user;
       }

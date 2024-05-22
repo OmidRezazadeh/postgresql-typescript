@@ -2,12 +2,16 @@ import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import User from "../models/user";
 import { AuthRepository } from "../Repositories/AuthRepository";
+import { ProfileRepository } from "../Repositories/ProfileRepository";
 import { AuthService } from "../Services/AuthService";
+import { ProfileService } from "../Services/ProfileService";
+import Profile from "../models/profile";
 const { connectDB, authenticate } = require("../config/database");
 class authController {
   private authService: AuthService;
-  constructor(authService: AuthService) {
-    this.authService = authService;
+  private profileService: ProfileService;
+  constructor(authService: AuthService, profileService: ProfileService) {
+    (this.authService = authService), (this.profileService = profileService);
   }
   googleAuth = passport.authenticate("google", { scope: ["profile", "email"] });
   googleAuthCallback = passport.authenticate("google", {
@@ -20,30 +24,38 @@ class authController {
   };
 
   async googleAuthSuccess(req: Request, res: Response) {
+    let transaction;
     try {
       let users = req.user;
       const userDataArray = Array.isArray(users) ? users : [users];
       const email = userDataArray[0].emails[0].value;
       const name = userDataArray[0].displayName;
-      const exitsUser = await this.authService.findbyEmail(email);
-      let token = null;
-      let userId = null;
+
+      const existingUser = await this.authService.findbyEmail(email);
+      let token: string | null = null;
+      let userId: number;
       let user: any = null;
-  
-      if (!exitsUser) {
-        user = await this.authService.registerUser(email, name); // Await here
+      const sequelize = connectDB;
+      transaction = await sequelize.transaction();
+      if (!existingUser) {
+        user = await this.authService.registerUser(email, name, transaction);
         userId = user.id;
+        await this.profileService.create(userId, transaction);
+      } else {
+        userId = existingUser.id;
       }
       token = await this.authService.generateToken(userId, email, name);
-      res.send({
-        token: token,
-      });
+      await transaction.commit();
+      res.send({ token });
     } catch (error) {
-      console.log(error);
-      res.status(500).send('Internal server error');
+      console.error(error);
+      if (transaction) {
+        await transaction.rollback();
+      }
+      res.status(500).send("Internal server error");
+      console.error(error);
     }
   }
-  
 
   home = (req: Request, res: Response) => {
     res.send(`<h1>Home Page</h1> <a href="/auth/google">Login</a>`);
@@ -55,9 +67,13 @@ class authController {
     });
   };
 }
+
 User.initialize(connectDB);
+Profile.initialize(connectDB);
 authenticate();
 const authRepository = new AuthRepository();
 const authService = new AuthService(authRepository); // Initialize authService first
-const AuthController = new authController(authService); // Then initialize authController
+const profileRepository = new ProfileRepository(); //
+const profileService = new ProfileService(profileRepository);
+const AuthController = new authController(authService, profileService); // Then initialize authController
 export { authRepository, authService, AuthController };

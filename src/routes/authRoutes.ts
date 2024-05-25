@@ -7,6 +7,6 @@ authRoutes.get('/auth/google',AuthController.googleAuth.bind(AuthController));
 authRoutes.get('/auth/google/callback', AuthController.googleAuthCallback.bind(AuthController));
 authRoutes.get('/auth/google/failure', AuthController.googleAuthFailure.bind(AuthController));
 authRoutes.get('/auth/google/success', isLoggedIn, AuthController.googleAuthSuccess.bind(AuthController));
-authRoutes.get('/auth/logout', AuthController.logout);
+authRoutes.get('/auth/logout', AuthController.logout.bind(AuthController));
 
 export default authRoutes;

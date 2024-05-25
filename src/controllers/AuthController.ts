@@ -5,7 +5,7 @@ import { ProfileRepository } from "../Repositories/ProfileRepository";
 import { AuthService } from "../Services/AuthService";
 import { ProfileService } from "../Services/ProfileService";
 
-const { connectDB} = require("../config/database");
+const {connectDB} = require("../config/database");
 class authController {
   private authService: AuthService;
   private profileService: ProfileService;

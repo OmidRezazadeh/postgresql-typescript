@@ -3,11 +3,12 @@ import { Model, DataTypes, Sequelize } from "sequelize";
 interface RoleAttributes {
   id: number;
   name: string;
+  created_at?: Date;
+  updated_at?: Date;
 }
 class Role extends Model<RoleAttributes> implements RoleAttributes {
   public id!: number;
   public name!: string;
-
   public  created_at!: Date;
   public  updated_at!: Date;
 
@@ -27,6 +28,23 @@ class Role extends Model<RoleAttributes> implements RoleAttributes {
           type: DataTypes.STRING, // Define lastName as string
           allowNull: false, // Disallow null values
         },
+        created_at: {
+          allowNull: false,
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+        },
+        updated_at: {
+          allowNull: false,
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+        },
+
+
+
+
+
+
+
       },
       // Define model options
       {

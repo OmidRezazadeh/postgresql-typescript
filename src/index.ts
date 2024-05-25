@@ -1,10 +1,10 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 const  {connectDB} = require ('./config/database');
 import passport from "passport";
-import authRoutes from "./routes/authRoutes";
-import routerRole from "./routes/RoleRoutes";
-import session from "express-session";
+import router from './routes/indexRoute';
 import { errorHandler } from "./middleware/errors"
+import session from "express-session";
+
 import './config/auth';
 const app = express();
 import dotenv from "dotenv";
@@ -31,8 +31,7 @@ passport.deserializeUser((obj: any, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(authRoutes); 
-app.use("/api/v1/admin/roles",routerRole) 
+app.use(router);
 app.use(errorHandler);
 const PORT = process.env.PORT;
 connectDB

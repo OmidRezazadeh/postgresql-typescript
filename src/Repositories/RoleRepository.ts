@@ -9,4 +9,13 @@ export class RoleRepository implements ProfileInterface {
       console.log(error);
     }
   }
+
+  async findById(id: number) {
+    const role = await Role.findByPk(id);
+    return role;
+  }
+  async edit(data: any, id: number) {
+    const role = await Role.update(data, { where: { id: id } });
+    console.log(role);
+  }
 }

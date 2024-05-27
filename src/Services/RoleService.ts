@@ -12,30 +12,30 @@ export class RoleService {
   // Method to validate the role data using the validation schema
   async storeValidate(data: any) {
     const { error } = roleValidate.validate(data); // Validating the data
-    if (error) { // If validation fails
+    if (error) {
+      // If validation fails
       const validationError = new Error(error.details[0].message); // Create a new error with the validation message
       (validationError as any).status = 400; // Set the status property of the error to 400 (Bad Request)
       throw validationError; // Throw the validation error
     }
   }
-   async editValidate(data:any , id:number){
-    if(id !== undefined){
-     const role= await this.roleRepository.findById(id);
-     if (!role) {
-      const errorExitsRole = new Error("نقشی یافت نشد");
-      (errorExitsRole as any).status = 404; 
-      throw errorExitsRole; 
-     }
+  async editValidate(data: any, id: number) {
+    if (id !== undefined) {
+      const role = await this.roleRepository.findById(id);
+      if (!role) {
+        const errorExitsRole = new Error("نقشی یافت نشد");
+        (errorExitsRole as any).status = 404;
+        throw errorExitsRole;
+      }
     }
     const { error } = roleValidate.validate(data); // Validating the data
-    if (error) { // If validation fails
+    if (error) {
+      // If validation fails
       const validationError = new Error(error.details[0].message); // Create a new error with the validation message
       (validationError as any).status = 400; // Set the status property of the error to 400 (Bad Request)
       throw validationError; // Throw the validation error
     }
-
-   }
-
+  }
 
   // Method to store the role data using the RoleRepository
   async store(data: any) {
@@ -43,8 +43,25 @@ export class RoleService {
     return role; // Returning the created role
   }
 
-  async edit(data:any, id:number){
-    const role= await this.roleRepository.edit(data, id);
-return role
+  async edit(data: any, id: number) {
+    const role = await this.roleRepository.edit(data, id);
+    return role;
   }
+  async find(id: number) {
+
+        const role = await this.roleRepository.findById(id);
+        if (!role) {
+            const errorExitsRole = new Error("نقشی یافت نشد");
+            (errorExitsRole as any).status = 404;
+            throw errorExitsRole;
+        } else {
+            return role;
+        }
+    
+}
+
+async list(data:any){
+return await this.roleRepository.list(data);
+}
+
 }

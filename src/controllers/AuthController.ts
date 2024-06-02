@@ -10,7 +10,8 @@ class authController {
   private authService: AuthService;
   private profileService: ProfileService;
   constructor(authService: AuthService, profileService: ProfileService) {
-    (this.authService = authService), (this.profileService = profileService);
+    (this.authService = authService),
+     (this.profileService = profileService);
   }
   googleAuth = passport.authenticate("google", { scope: ["profile", "email"] });
   googleAuthCallback = passport.authenticate("google", {

@@ -7,7 +7,7 @@ export class RoleRepository implements ProfileInterface {
       const role = await Role.create(data);
       return role;
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -17,7 +17,7 @@ export class RoleRepository implements ProfileInterface {
   }
   async edit(data: any, id: number) {
     const role = await Role.update(data, { where: { id: id } });
-    console.log(role);
+
   }
  
   async list(data: any) {
@@ -63,6 +63,7 @@ export class RoleRepository implements ProfileInterface {
     } catch (error) {
       console.log(error); // Log any errors that occur during execution
     }
+    
   }
   
 }

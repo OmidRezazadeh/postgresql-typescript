@@ -16,9 +16,9 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
   public user_id!: number;
   public image?: string;
   public bio?: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
+  public readonly created_at!: Date;
+  public readonly updated_at!: Date;
+  public readonly deleted_at!: Date;
 
   static initialize(sequelize: Sequelize) {
     Profile.init(
@@ -55,6 +55,7 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
           type: DataTypes.DATE,
         },
       },
+      
       {
         modelName: 'Profile',
         sequelize,

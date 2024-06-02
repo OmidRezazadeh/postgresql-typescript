@@ -2,6 +2,7 @@ const { Sequelize } = require("sequelize");
 import User from "../models/user";
 import Profile from "../models/profile";
 import Role from "../models/role";
+import UserRole from "../models/userRole";
 interface DBConfig {
   database: string;
   username: string;
@@ -31,7 +32,10 @@ const connectDB = new Sequelize(dbConfig);
 Profile.initialize(connectDB);
 User.initialize(connectDB);
 Role.initialize(connectDB);
-
+UserRole.initialize(connectDB);
+// Establish Many-to-Many relationships
+User.belongsToMany(Role, { through: UserRole, foreignKey: 'user_id' });
+Role.belongsToMany(User, { through: UserRole, foreignKey: 'role_id' });
 function authenticate() {
   return connectDB.authenticate();
 }

@@ -30,8 +30,8 @@ export class UserService {
     return user;
   }
 
-  async assign(data:any){
-   return await this.userRepository.assignRole(data);
+  async assign(userId:number, transaction:any){
+   return await this.userRepository.assignRole(userId, transaction);
   }
 
 }

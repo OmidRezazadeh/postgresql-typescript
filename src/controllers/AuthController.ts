@@ -2,16 +2,25 @@ import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import { AuthRepository } from "../Repositories/AuthRepository";
 import { ProfileRepository } from "../Repositories/ProfileRepository";
+import { UserRepository } from "../Repositories/UserRepository";
 import { AuthService } from "../Services/AuthService";
 import { ProfileService } from "../Services/ProfileService";
+import { UserService } from "../Services/UserService";
 
 const {connectDB} = require("../config/database");
 class authController {
+  private userService : UserService
   private authService: AuthService;
   private profileService: ProfileService;
-  constructor(authService: AuthService, profileService: ProfileService) {
-    (this.authService = authService),
-     (this.profileService = profileService);
+  constructor(
+    authService: AuthService,
+     profileService: ProfileService,
+     userService: UserService
+    
+    ) {
+    this.authService = authService,
+    this.userService = userService;
+     this.profileService = profileService
   }
   googleAuth = passport.authenticate("google", { scope: ["profile", "email"] });
   googleAuthCallback = passport.authenticate("google", {
@@ -49,6 +58,7 @@ class authController {
         user = await this.authService.registerUser(email, name, transaction);
         userId = user.id;
         await this.profileService.create(userId, transaction);
+        await this.userService.assign(userId, transaction);
       } else {
         // If the user exists, use their existing ID
         userId = existingUser.id;
@@ -86,8 +96,11 @@ class authController {
 
 
 const authRepository = new AuthRepository();
-const authService = new AuthService(authRepository); // Initialize authService first
-const profileRepository = new ProfileRepository(); //
+const authService = new AuthService(authRepository); 
+const profileRepository = new ProfileRepository(); 
 const profileService = new ProfileService(profileRepository);
-const AuthController = new authController(authService, profileService); // Then initialize authController
+
+const userRepository = new UserRepository();
+const userService = new UserService(userRepository);
+const AuthController = new authController(authService, profileService,userService); 
 export { authRepository, authService, AuthController };

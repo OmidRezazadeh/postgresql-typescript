@@ -1,5 +1,6 @@
 
 import { Model, DataTypes, Sequelize } from "sequelize";
+
 interface RoleAttributes {
   id: number;
   name: string;
@@ -11,7 +12,7 @@ class Role extends Model<RoleAttributes> implements RoleAttributes {
   public name!: string;
   public  created_at!: Date;
   public  updated_at!: Date;
-
+  static readonly ROLE_CLINT_ID = 1;
 
   // A static method to initialize the User model
   static initialize(sequelize: Sequelize) {
@@ -38,12 +39,7 @@ class Role extends Model<RoleAttributes> implements RoleAttributes {
           type: DataTypes.DATE,
           defaultValue: DataTypes.NOW,
         },
-
-
-
-
-
-
+       
 
       },
       // Define model options

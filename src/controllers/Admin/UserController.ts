@@ -11,18 +11,7 @@ class userController {
     this.userService = userService;
     this.roleService = roleService;
   }
-  // async assignRole(req: Request, res: Response, next: NextFunction) {
-  //   try {
-  //     const data = req.body;
-  //     await this.userService.validate(data);
-  //     await this.userService.findById(data.user_id);
-  //     await this.roleService.find(data.role_id);
-  //     const assignUserRole =await this.userService.assign(user);
-  //     res.status(200).json(assignUserRole);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+
 }
 
 const userRepository = new UserRepository();

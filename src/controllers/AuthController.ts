@@ -44,7 +44,7 @@ class authController {
       const name = userDataArray[0].displayName;
   
       // Check if the user already exists in the database using their email
-      const existingUser = await this.authService.findbyEmail(email);
+      const existingUser = await this.authService.findByEmail(email);
       let token: string | null = null;
       let userId: number;
       let user: any = null;

@@ -9,9 +9,9 @@ export class AuthService {
     this.authRepository = authRepository;
   }
 
-  async findbyEmail(email: string) {
+  async findByEmail(email: string) {
     try {
-      const user = await this.authRepository.findbyEmail(email);
+      const user = await this.authRepository.findByEmail(email);
       return user;
     } catch (error) {
       console.log(error);

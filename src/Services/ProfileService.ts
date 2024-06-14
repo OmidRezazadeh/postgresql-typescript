@@ -1,5 +1,6 @@
 import { ProfileRepository } from "../Repositories/ProfileRepository";
 import { editValidate } from "../validations/ProfileValidate";
+import { throwCustomError } from "../utils/errorHandling";
 
 export class ProfileService {
   private profileRepository: ProfileRepository;
@@ -17,28 +18,16 @@ export class ProfileService {
 
   async editValidate(userId: number, authUserId: number, data: any) {
 
-console.log(userId,authUserId)
     if (userId !== authUserId) {
-      const errorExitsUser = new Error(
-        "شما اجازه  بروز رسانی این پروفایل را ندارید"
-      );
-      (errorExitsUser as any).status = 400;
-      throw errorExitsUser;
+      throwCustomError("شما اجازه  بروز رسانی این پروفایل را ندارید",400);
     }
    const profile = await this.profileRepository.findByUserId(userId);
    if(!profile){
-    const errorExitsUser = new Error(
-      "پروفایلی یافت نشد"
-    );
-    (errorExitsUser as any).status = 400;
-    throw errorExitsUser;
+    throwCustomError("پروفایلی یافت نشد",404);
    }
     const { error } = await editValidate.validate(data);
     if (error) {
-      // If validation fails
-      const validationError = new Error(error.details[0].message); // Create a new error with the validation message
-      (validationError as any).status = 400; // Set the status property of the error to 400 (Bad Request)
-      throw validationError; // Throw the validation error
+      throwCustomError(error.details[0].message,400);
     }
   }
   async edit(data: any,userId:number) {

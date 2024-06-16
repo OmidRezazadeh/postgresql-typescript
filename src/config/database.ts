@@ -33,6 +33,11 @@ Profile.initialize(connectDB);
 User.initialize(connectDB);
 Role.initialize(connectDB);
 UserRole.initialize(connectDB);
+
+// Set up associations
+User.associate({ Profile, Role });
+Profile.associate({ User });
+Role.associate({ User });
 // Establish Many-to-Many relationships
 User.belongsToMany(Role, { through: UserRole, foreignKey: 'user_id' });
 Role.belongsToMany(User, { through: UserRole, foreignKey: 'role_id' });

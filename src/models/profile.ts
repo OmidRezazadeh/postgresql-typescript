@@ -67,7 +67,7 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
     );
   }
 
-  static associate(models: { [key: string]: typeof Model }) {
+  static associate(models: {User: typeof User }) {
     this.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
   }
 }

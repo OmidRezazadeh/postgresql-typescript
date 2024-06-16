@@ -1,6 +1,6 @@
 
 import { Model, DataTypes, Sequelize } from "sequelize";
-
+import User from './user';
 interface RoleAttributes {
   id: number;
   name: string;
@@ -52,8 +52,15 @@ class Role extends Model<RoleAttributes> implements RoleAttributes {
 
       }
     );
- 
   }
+  static associate(models: { User: typeof User }) {
+    this.belongsToMany(models.User, {
+      through: 'UserRole',
+      foreignKey: 'role_id',
+      as: 'users',
+    });
+  }
+
 }
 
 // Export the User model

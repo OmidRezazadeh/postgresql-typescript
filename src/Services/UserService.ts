@@ -13,6 +13,7 @@ export class UserService {
 
     const { error } = userRoleValidate.validate(data); // Validating the data
     if (error) {
+
       throwCustomError(error.details[0].message,400);
     }
   }
@@ -29,5 +30,9 @@ export class UserService {
   async assign(userId:number, transaction:any){
    return await this.userRepository.assignRole(userId, transaction);
   }
+
+ async list(data:any){
+  return await this.userRepository.list(data);
+ }
 
 }

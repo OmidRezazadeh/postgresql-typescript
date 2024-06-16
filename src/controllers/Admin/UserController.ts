@@ -29,7 +29,7 @@ class userController {
       }
 
 
-      return res.status(200).json({ user: userData });
+      return res.status(200).json({"data":userData });
     } catch (error) {
 
       console.log(error);

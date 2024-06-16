@@ -1,7 +1,7 @@
 export const UserCollection = (users: any) => {
   const data = users?.users;
   const transFormedData = data.map((user: any) => {
-console.log(user.profile);
+
     return {
       id: user.id,
       name: user.name,

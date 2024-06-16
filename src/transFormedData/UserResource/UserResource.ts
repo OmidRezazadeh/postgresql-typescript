@@ -1,6 +1,6 @@
 import Role from "../../models/role";
 export const UserResource = (user: any) => {
-  return {
+ const data= {
     id: user.id,
     name: user.name,
     email: user.email,
@@ -18,4 +18,8 @@ export const UserResource = (user: any) => {
         }))
       : [],
   };
+return{
+  user:data
+}
+  
 };

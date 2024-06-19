@@ -67,8 +67,7 @@ export class UserRepository implements UserInterface {
           }
         });
       }
-  
-    
+      
       query.include.push({
         model: Profile,
         as: "profile",

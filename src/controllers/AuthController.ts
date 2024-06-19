@@ -24,7 +24,7 @@ class authController {
   }
   googleAuth = passport.authenticate("google", { scope: ["profile", "email"] });
   googleAuthCallback = passport.authenticate("google", {
-    failureRedirect: "/login",
+    failureRedirect: "/auth/google/failed",
     successRedirect: "/auth/google/success",
   });
 

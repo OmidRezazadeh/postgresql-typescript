@@ -1,5 +1,6 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
-
+import Category from "./category";
+import User from "./user";
 interface ProductAttributes {
   id: number;
   name: string;
@@ -22,51 +23,61 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
 
   static initialize(sequelize: Sequelize) {
     Product.init(
-        {
-      id: {
-        type: DataTypes.INTEGER, // Define id as an integer
-        autoIncrement: true, // Enable auto-increment
-        primaryKey: true, // Define it as primary key
+      {
+        id: {
+          type: DataTypes.INTEGER, // Define id as an integer
+          autoIncrement: true, // Enable auto-increment
+          primaryKey: true, // Define it as primary key
+        },
+
+        name: {
+          type: DataTypes.STRING, // Define lastName as string
+          allowNull: false, // Disallow null values
+        },
+        category_id: {
+          type: DataTypes.INTEGER,
+        },
+        user_id: {
+          type: DataTypes.INTEGER,
+        },
+        price: {
+          type: DataTypes.INTEGER,
+        },
+        description: {
+          type: DataTypes.STRING,
+        },
+        created_at: {
+          allowNull: false,
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+        },
+        updated_at: {
+          allowNull: false,
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+        },
       },
 
-      name: {
-        type: DataTypes.STRING, // Define lastName as string
-        allowNull: false, // Disallow null values
-      },
-      category_id: {
-        type: DataTypes.INTEGER,
-      },
-      user_id: {
-        type: DataTypes.INTEGER,
-      },
-      price: {
-        type: DataTypes.INTEGER,
-      },
-      description:{
-        type: DataTypes.STRING,
-      },
-      created_at: {
-        allowNull: false,
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-      },
-      updated_at: {
-        allowNull: false,
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-      },
-    },
-
-    {
-        modelName: 'product',
+      {
+        modelName: "Product",
         sequelize,
         timestamps: true,
         underscored: true,
-        tableName: 'Products', // Ensure this matches your actual table name
+        tableName: "Products", // Ensure this matches your actual table name
         paranoid: true, // Enable soft deletion handling
       }
+    );
+  }
+  static associate(models: { Category: typeof Category; User: typeof User; }) {
+    this.hasMany(Category, {
+      foreignKey: "category_id",
+      as: "products",
+    });
 
-);
+    this.belongsTo(User, {
+      foreignKey: "user_id",
+      as: "user",
+    });
   }
 }
 export default Product;

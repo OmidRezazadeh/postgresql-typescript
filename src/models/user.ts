@@ -1,5 +1,6 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import Profile from './profile';
+import Product from './product';
 
 import Role from './role';
 // Define an interface for User attributes
@@ -70,13 +71,21 @@ class User extends Model<UserAttributes> implements UserAttributes {
     );
  
   }
-  static associate(models: { Profile: typeof Profile; Role: typeof Role }) {
-    this.hasOne(Profile, { foreignKey: 'user_id', as: 'profile' });
+  static associate(models: { Profile: typeof Profile; Role: typeof Role; Product: typeof Product;}) {
+    this.hasOne(Profile, {
+       foreignKey: 'user_id',
+        as: 'profile'
+       });
+       this.hasMany(Product, {
+        foreignKey:"user_id",
+        as:'products',
+       })
     this.belongsToMany(models.Role, {
       through: 'UserRole',
       foreignKey: 'user_id',
       as: 'roles',
     });
+
   }
 }
 

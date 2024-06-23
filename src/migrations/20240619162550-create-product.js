@@ -14,6 +14,16 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
+      category_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Categories', // Name of the referenced table
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        allowNull: true // Allow null in case a product can exist without a category
+      },
       name: {
         type: Sequelize.STRING
       },
@@ -26,11 +36,6 @@ module.exports = {
       category_id:{
         type: Sequelize.INTEGER,
       },
-      
-
-
-
-      
       created_at: {
         allowNull: false,
         type: Sequelize.DATE

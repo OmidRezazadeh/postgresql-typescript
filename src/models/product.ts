@@ -36,6 +36,12 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
         },
         category_id: {
           type: DataTypes.INTEGER,
+          references: {
+            model: 'Categories',
+            key: 'id',
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL',
         },
         user_id: {
           type: DataTypes.INTEGER,
@@ -69,9 +75,9 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
     );
   }
   static associate(models: { Category: typeof Category; User: typeof User; }) {
-    this.hasMany(Category, {
+    this.belongsTo(Category, {
       foreignKey: "category_id",
-      as: "products",
+      as: "category",
     });
 
     this.belongsTo(User, {

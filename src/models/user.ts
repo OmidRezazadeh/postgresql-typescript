@@ -76,6 +76,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
        foreignKey: 'user_id',
         as: 'profile'
        });
+       
        this.hasMany(Product, {
         foreignKey:"user_id",
         as:'products',

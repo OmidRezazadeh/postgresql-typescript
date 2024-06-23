@@ -6,6 +6,7 @@ interface CategoryAttributes {
   name:string ;
   created_at?: Date;
   updated_at?: Date; 
+  deleted_at?: Date;
 }
  class Category extends Model<CategoryAttributes> implements CategoryAttributes  {
 
@@ -14,7 +15,7 @@ interface CategoryAttributes {
   public name!:string ;
   public created_at?: Date;
   public updated_at?: Date; 
-
+  public readonly deleted_at!: Date;
   static initialize(sequelize: Sequelize){
     Category.init({
       id: {
@@ -36,6 +37,10 @@ interface CategoryAttributes {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
+      deleted_at: {
+        allowNull: true,
+        type: DataTypes.DATE,
+      },
 
     },
 
@@ -52,7 +57,7 @@ interface CategoryAttributes {
 
 
   static associate(models:{Product:typeof Product}){
-    this.belongsTo(Product, {
+    this.hasMany(Product, {
       foreignKey: 'category_id',
       as:"products"
     });

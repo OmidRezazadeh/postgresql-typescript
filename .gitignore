@@ -1,6 +1,6 @@
 node_modules
 # ENV File
 .env
-src/Public/upload/images
-src/Public/upload/users
-src/Public/upload/posts
+src/public/upload/images
+src/public/upload/users
+src/public/upload/posts

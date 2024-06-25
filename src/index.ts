@@ -4,12 +4,14 @@ import passport from "passport";
 import router from './routes/indexRoute';
 import { errorHandler } from "./middleware/errors"
 import session from "express-session";
-
+import path from "path";
 import './config/auth';
 const app = express();
 import dotenv from "dotenv";
 app.use(express.json());
+
 dotenv.config();
+
 
 app.use(
   session({
@@ -30,6 +32,7 @@ passport.deserializeUser((obj: any, done) => {
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use(router);
 app.use(errorHandler);

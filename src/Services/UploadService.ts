@@ -36,10 +36,11 @@ export class UploadService {
         // Process the image with sharp and save it with the new name
         await sharp(req.file.buffer)
           .jpeg({ quality: 60 }) // Convert the image to JPEG with 60% quality
-          .toFile(path.join(__dirname, '../Public/upload/images', fileName));
+          .toFile(path.join(__dirname, '../public/upload/images', fileName));
 
         // Construct the URL to the uploaded image
-        const image = `http://localhost:3000/uploads/${fileName}`;
+        const image = `http://localhost:${process.env.PORT}/public/upload/images/${fileName}`;
+
 
         // Send the image URL as the response
         res.status(200).json({ image });

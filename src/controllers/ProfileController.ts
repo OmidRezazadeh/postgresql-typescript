@@ -16,10 +16,8 @@ class profileController {
       const data= req.body;
       await this.profileService.editValidate(userId, authUserId,data);
       await this.profileService.edit(data,userId);
-      res.status(201).json({"success":" بروز رسانی با موفقیت  انجام شد "});
-
+      res.status(201).json({"success":"بروز رسانی با موفقیت  انجام شد"});
     }catch(error){
-
       next(error);
     }
   };

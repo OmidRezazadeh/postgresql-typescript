@@ -13,20 +13,19 @@ export class RoleService {
   async storeValidate(data: any) {
     const { error } = roleValidate.validate(data); // Validating the data
     if (error) {
-      throwCustomError(error.details[0].message,400)
-    
+      throwCustomError(error.details[0].message, 400);
     }
   }
   async editValidate(data: any, id: number) {
     if (id !== undefined) {
       const role = await this.roleRepository.findById(id);
       if (!role) {
-        throwCustomError("نقشی یافت نشد",404);
+        throwCustomError("نقشی یافت نشد", 404);
       }
     }
     const { error } = roleValidate.validate(data); // Validating the data
     if (error) {
-      throwCustomError(error.details[0].message,400);
+      throwCustomError(error.details[0].message, 400);
     }
   }
 
@@ -41,18 +40,15 @@ export class RoleService {
     return role;
   }
   async find(id: number) {
+    const role = await this.roleRepository.findById(id);
+    if (!role) {
+      throwCustomError("نقشی یافت نشد", 404);
+    } else {
+      return role;
+    }
+  }
 
-        const role = await this.roleRepository.findById(id);
-        if (!role) {
-          throwCustomError("نقشی یافت نشد",404);
-        } else {
-            return role;
-        }
-    
-}
-
-async list(data:any){
-return await this.roleRepository.list(data);
-}
-
+  async list(data: any) {
+    return await this.roleRepository.list(data);
+  }
 }

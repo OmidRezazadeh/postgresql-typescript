@@ -1,6 +1,7 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
 import Category from "./category";
 import User from "./user";
+import Image from "./image";
 interface ProductAttributes {
   id: number;
   name: string;
@@ -37,11 +38,11 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
         category_id: {
           type: DataTypes.INTEGER,
           references: {
-            model: 'Categories',
-            key: 'id',
+            model: "Categories",
+            key: "id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL',
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
         },
         user_id: {
           type: DataTypes.INTEGER,
@@ -74,7 +75,11 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
       }
     );
   }
-  static associate(models: { Category: typeof Category; User: typeof User; }) {
+  static associate(models: {
+    Category: typeof Category;
+    User: typeof User;
+    Image: typeof Image;
+  }) {
     this.belongsTo(Category, {
       foreignKey: "category_id",
       as: "category",
@@ -83,6 +88,13 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
     this.belongsTo(User, {
       foreignKey: "user_id",
       as: "user",
+    });
+    this.hasMany(Image, {
+      foreignKey: "imageable_id",
+      constraints: false,
+      scope: {
+        imageableType: "product",
+      },
     });
   }
 }

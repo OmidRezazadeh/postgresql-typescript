@@ -13,10 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      image: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
+
       bio: {
         type: Sequelize.STRING,
         allowNull: true,

@@ -1,5 +1,6 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import User from './user';
+import Image from "./image";
 
 interface ProfileAttributes {
   id?: number;
@@ -32,10 +33,6 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        image: {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
         bio: {
           type: DataTypes.STRING,
           allowNull: true,
@@ -67,8 +64,16 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
     );
   }
 
-  static associate(models: {User: typeof User }) {
+  static associate(models: {User: typeof User; Image:typeof Image }) {
     this.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
+    this.belongsTo(Image,{
+        constraints: false,
+        foreignKey:"imageable_id",
+      scope:{
+        imageableType: 'profile'
+      }
+      
+      });
   }
 }
 

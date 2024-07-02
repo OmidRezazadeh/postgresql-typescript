@@ -3,7 +3,7 @@ import { ProfileService } from "../Services/ProfileService";
 import { getDecodedToken } from "../utils/token";
 import { ProfileRepository } from "../Repositories/ProfileRepository";
 import { ImageRepository } from "../Repositories/ImageRepository";
-import { ImageResource} from "../transFormedData/ImageResource/ImageResource";
+import { ImageResource } from "../transFormedData/ImageResource/ImageResource";
 class profileController {
   private profileService: ProfileService;
 
@@ -37,10 +37,9 @@ class profileController {
         userId,
         profile
       );
-      res.status(200).json({"data":image});
 
-
-
+      const data = ImageResource(image);
+      res.status(200).json(data);
     } catch (error) {
       next(error);
     }

@@ -4,6 +4,5 @@ export const ImageResource = (image: any) => {
     name: image.url, // Include the role's name
     created_at: image.created_at,
     updated_at: image.created_at,
-    
     };
 }

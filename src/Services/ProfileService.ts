@@ -57,26 +57,52 @@ export class ProfileService {
   }
 
   async moveImage(imageName: string, userId: number, profile: any) {
+   
     const profileDataArray = Array.isArray(profile) ? profile : [profile];
     const image = profileDataArray["0"].image;
     const profileId = profileDataArray["0"].id;
     const destinationFolderPath = path.join(tempImage, userId.toString());
     const imagePath = path.join(tempImage, imageName);
     const destinationFilePath = path.join(destinationFolderPath, imageName);
+
+
+
     if (!fs.existsSync(destinationFolderPath)) {
       fs.mkdirSync(destinationFolderPath);
       fs.rename(imagePath, destinationFilePath, (err) => {
         if (err) {
           console.error(`Error moving ${imageName} to user folder:`, err);
+        }else{
+
         }
       });
 
-      return  await this.imageRepository.create(imageName,profileId)
+      return await this.imageRepository.create(imageName, profileId);
     } else {
       if (image) {
+        const imageUrl= image.url;
+        fs.rename(imagePath, destinationFilePath, (err) => {
+          if (err) {
+            console.error(`Error moving ${imageName} to user folder:`, err);
+          } else {
+    
+          }
+        });
+        const oldImagePath = path.join(destinationFolderPath,imageUrl);
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            console.error(`Error deleting original image ${imageName}:`, err);
+          }else{
+            
+          }
+        });
+
+        return await this.imageRepository.update(imageName, profileId);
       }
     }
   }
+
+
   async findImageByUserId(userId: number) {
     return await this.profileRepository.findImageByUserId(userId);
   }

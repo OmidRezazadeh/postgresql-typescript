@@ -41,6 +41,7 @@ class profileController {
       const data = ImageResource(image);
       res.status(200).json(data);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };

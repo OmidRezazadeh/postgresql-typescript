@@ -5,7 +5,6 @@ import Image from "./image";
 interface ProfileAttributes {
   id?: number;
   user_id: number;
-  image?: string;
   bio?: string;
   created_at?: Date;
   updated_at?: Date;
@@ -15,7 +14,7 @@ interface ProfileAttributes {
 class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
   public id!: number;
   public user_id!: number;
-  public image?: string;
+
   public bio?: string;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
@@ -64,17 +63,17 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
     );
   }
 
-  static associate(models: {User: typeof User; Image:typeof Image }) {
+ 
+  static associate(models: { User: typeof User; Image: typeof Image }) {
     this.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
-    this.belongsTo(Image,{
-        constraints: false,
-        foreignKey:"imageable_id",
-      scope:{
-        imageableType: 'profile'
-      }
-      
-      });
+    this.hasOne(Image, {
+      foreignKey: 'imageable_id',
+      constraints: false,
+      scope: {
+        imageable_type: 'profile',
+      },
+      as: 'image',
+    });
   }
 }
-
 export default Profile;

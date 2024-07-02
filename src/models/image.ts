@@ -1,8 +1,9 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
+import Profile from "./profile";
 interface ImageAttributes {
   id?: number;
   url: string;
-  imageable_id: string;
+  imageable_id: number;
   imageable_type: string;
   created_at?: Date;
   updated_at?: Date;
@@ -11,7 +12,7 @@ interface ImageAttributes {
 class Image extends Model<ImageAttributes> implements ImageAttributes {
   public id?: number;
   public url!: string;
-  public imageable_id!: string;
+  public imageable_id!: number;
   public imageable_type!: string;
   created_at?: Date;
   updated_at?: Date;
@@ -52,18 +53,17 @@ class Image extends Model<ImageAttributes> implements ImageAttributes {
       {
         modelName: "Image",
         sequelize,
-        timestamps: true,
         underscored: true,
         tableName: "Images", // Ensure this matches your actual table name
       }
     );
   }
 
-  static associate(models: { Image: typeof Image }) {
-    this.hasOne(Image, {
-      foreignKey: "imageable_id",
-      as: "imageable",
+  static associate(models: { Profile: typeof Profile }) {
+    this.belongsTo(Profile, {
+      foreignKey: 'imageable_id',
       constraints: false,
+      as: 'imageable',
     });
   }
 }

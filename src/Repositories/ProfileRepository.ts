@@ -1,5 +1,6 @@
 import { ProfileInterface } from "../interfaces/ProfileInterface";
 import Profile from "../models/profile";
+import Image from "../models/image";
 export class ProfileRepository implements ProfileInterface {
   async create(userId: number, transaction: any): Promise<any> {
     try {
@@ -20,6 +21,17 @@ export class ProfileRepository implements ProfileInterface {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async findImageByUserId(userId: number){
+    const profile = await Profile.findOne({
+      where: { user_id: userId },
+      include: [
+        { model: Image, as: 'image'}
+      ]
+    });
+    return profile;
+
   }
   async edit(data: any, userId: number): Promise<any> {
     try {

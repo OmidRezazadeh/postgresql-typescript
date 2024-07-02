@@ -6,7 +6,7 @@ import { UserRepository } from "../Repositories/UserRepository";
 import { AuthService } from "../Services/AuthService";
 import { ProfileService } from "../Services/ProfileService";
 import { UserService } from "../Services/UserService";
-
+import { ImageRepository } from "../Repositories/ImageRepository";
 const {connectDB} = require("../config/database");
 class authController {
   private userService : UserService
@@ -52,6 +52,7 @@ class authController {
       // Start a new database transaction
       const sequelize = connectDB;
       transaction = await sequelize.transaction();
+
   
       // If the user does not exist, register a new user and create their profile
       if (!existingUser) {
@@ -98,7 +99,8 @@ class authController {
 const authRepository = new AuthRepository();
 const authService = new AuthService(authRepository); 
 const profileRepository = new ProfileRepository(); 
-const profileService = new ProfileService(profileRepository);
+const imageRepository =new ImageRepository();
+const profileService = new ProfileService(profileRepository,imageRepository);
 
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);

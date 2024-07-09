@@ -57,7 +57,6 @@ export class ProfileService {
   }
 
   async moveImage(imageName: string, userId: number, profile: any) {
-   
     const profileDataArray = Array.isArray(profile) ? profile : [profile];
     const image = profileDataArray["0"].image;
     const profileId = profileDataArray["0"].id;
@@ -65,35 +64,30 @@ export class ProfileService {
     const imagePath = path.join(tempImage, imageName);
     const destinationFilePath = path.join(destinationFolderPath, imageName);
 
-
-
     if (!fs.existsSync(destinationFolderPath)) {
       fs.mkdirSync(destinationFolderPath);
       fs.rename(imagePath, destinationFilePath, (err) => {
         if (err) {
           console.error(`Error moving ${imageName} to user folder:`, err);
-        }else{
-
+        } else {
         }
       });
 
       return await this.imageRepository.create(imageName, profileId);
     } else {
       if (image) {
-        const imageUrl= image.url;
+        const imageUrl = image.url;
         fs.rename(imagePath, destinationFilePath, (err) => {
           if (err) {
             console.error(`Error moving ${imageName} to user folder:`, err);
           } else {
-    
           }
         });
-        const oldImagePath = path.join(destinationFolderPath,imageUrl);
+        const oldImagePath = path.join(destinationFolderPath, imageUrl);
         fs.unlink(oldImagePath, (err) => {
           if (err) {
             console.error(`Error deleting original image ${imageName}:`, err);
-          }else{
-            
+          } else {
           }
         });
 
@@ -102,9 +96,42 @@ export class ProfileService {
     }
   }
 
-
   async findImageByUserId(userId: number) {
     return await this.profileRepository.findImageByUserId(userId);
   }
-  async updateOrCreateImage(imageName: string, authUserId: number) {}
+
+  async deleteImage(profile: any, userId: number) {
+    const profileDataArray = Array.isArray(profile) ? profile : [profile];
+    const image = profileDataArray["0"].image;
+
+    if (!image) {
+      throwCustomError("عکسی یافت نشد", 400);
+    } else {
+      const imageName = image.url;
+      const destinationFolderPath = path.join(tempImage, userId.toString());
+      const destinationFilePath = path.join(destinationFolderPath, imageName);
+      if (!destinationFilePath) {
+        throwCustomError("عکسی یافت نشد", 400);
+      } else {
+        fs.unlink(destinationFilePath, (err) => {
+          if (err) {
+            console.error(`Error deleting original image ${imageName}:`, err);
+          } else {
+          }
+        });
+      }
+      if (!destinationFolderPath) {
+        throwCustomError("در حذف فولدر مشکلی پیش امده", 400);
+      } else {
+        fs.rmdir(destinationFolderPath, { recursive: true }, (err) => {
+          if (err) {
+            console.error(`Error removing folder: ${err}`);
+          } else {
+            console.log("Folder removed successfully");
+          }
+        });
+      }
+    }
+    await this.imageRepository.deleteImage(image);
+  }
 }

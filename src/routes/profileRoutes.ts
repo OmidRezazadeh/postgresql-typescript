@@ -5,5 +5,6 @@ import { ProfileController } from '../controllers/ProfileController';
 
 routerProfile.put('/edit/:id',authenticated,ProfileController.edit.bind(ProfileController));
 routerProfile.put("/store-image",authenticated ,ProfileController.storeImage.bind(routerProfile));
+routerProfile.delete("/delete",authenticated,ProfileController.delete.bind(ProfileController));
 
 export default routerProfile;

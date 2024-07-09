@@ -11,5 +11,5 @@ router.use("/api/v1/admin/roles", roleRoutes);
 router.use("/api/v1/admin/users", routerUser);
 router.use("/api/v1/profiles",routerProfile);
 router.use("/api/v1/admin/categories", routerCategory);
-router.use("/upload",uploadRouter)
+router.use("/api/v1/upload",uploadRouter)
 export default router;

@@ -58,7 +58,10 @@ class Profile extends Model<ProfileAttributes> implements ProfileAttributes {
         timestamps: true,
         underscored: true,
         tableName: 'Profiles', // Ensure this matches your actual table name
-        paranoid: true, // Enable soft deletion handling
+        paranoid: true, // Enable soft deletion handling,
+        createdAt: 'created_at', // Map createdAt to created_at column
+        updatedAt: 'updated_at', // Map updatedAt to updated_at column
+        deletedAt:'deleted_at', // Map deletedAt to deleted_at
       }
     );
   }

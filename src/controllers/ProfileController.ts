@@ -45,6 +45,16 @@ class profileController {
       next(error);
     }
   };
+
+  delete = async (req: Request, res: Response, next: NextFunction) => {
+    const token = getDecodedToken(req.get("Authorization"));
+    const authUserId = token.user.userId;
+   const profile= await this.profileService.findImageByUserId(authUserId);
+   await this.profileService.deleteImage(profile,authUserId);
+   res.status(200).json("عکس  پروفایل حذف شد");
+
+
+  };
 }
 
 const profileRepository = new ProfileRepository();

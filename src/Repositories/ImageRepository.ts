@@ -1,7 +1,7 @@
 import { Op } from "sequelize";
 import { ImageInterface } from "../interfaces/ImageInterface";
 import Image from "../models/image";
-import Profile from "../models/profile";
+
 import { throwCustomError } from "../utils/errorHandling";
 export class ImageRepository implements ImageInterface {
   async create(name: string, profileId: number) {
@@ -30,5 +30,9 @@ export class ImageRepository implements ImageInterface {
 
     const image = await Image.findOne({ where: { imageable_id: profileId } });
     return image;
+  }
+
+  async deleteImage(image: any) {
+    await image.destroy();
   }
 }

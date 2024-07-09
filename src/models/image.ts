@@ -55,6 +55,8 @@ class Image extends Model<ImageAttributes> implements ImageAttributes {
         sequelize,
         underscored: true,
         tableName: "Images", // Ensure this matches your actual table name
+        createdAt: 'created_at', // Map createdAt to created_at column
+        updatedAt: 'updated_at', // Map updatedAt to updated_at column
       }
     );
   }

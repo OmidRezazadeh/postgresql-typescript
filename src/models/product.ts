@@ -9,6 +9,8 @@ interface ProductAttributes {
   price: number;
   description: string;
   category_id: number;
+  count:number;
+  status: number;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -19,6 +21,8 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
   public price!: number;
   public description!: string;
   public category_id!: number;
+  public count!:number;
+  public status!: number;
   public created_at?: Date;
   public updated_at?: Date;
 
@@ -52,6 +56,14 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
         },
         description: {
           type: DataTypes.STRING,
+        },
+        count:{
+          type: DataTypes.INTEGER,
+          defaultValue:0,
+        },
+        status:{
+          type: DataTypes.INTEGER,
+          defaultValue:0,
         },
         created_at: {
           allowNull: false,

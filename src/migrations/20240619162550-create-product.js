@@ -33,8 +33,20 @@ module.exports = {
       description:{
         type: Sequelize.STRING
       },
+
       category_id:{
         type: Sequelize.INTEGER,
+      },
+      status: { // Adding the status field
+        type: Sequelize.INTEGER,
+        allowNull: false, // Modify as per your requirement
+        defaultValue: 0 // Example default value
+      },
+      
+      count:{
+        type: Sequelize.INTEGER,
+        allowNull: false, // Modify as per your requirement
+        defaultValue: 0 // Example default value
       },
       created_at: {
         allowNull: false,

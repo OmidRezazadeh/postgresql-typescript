@@ -35,4 +35,12 @@ export class ImageRepository implements ImageInterface {
   async deleteImage(image: any) {
     await image.destroy();
   }
+
+  async createProductImage(image:string, productId:number){
+    return await Image.create({
+      url: image,
+      imageable_id: productId,
+      imageable_type: "product",
+    });
+  }
 }

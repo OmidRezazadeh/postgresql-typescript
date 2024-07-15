@@ -2,7 +2,7 @@ import { Model, DataTypes, Sequelize } from "sequelize";
 import Category from "./category";
 import User from "./user";
 import Image from "./image";
-interface ProductAttributes {
+export  interface ProductAttributes {
   id: number;
   name: string;
   user_id: number;
@@ -30,9 +30,9 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
     Product.init(
       {
         id: {
-          type: DataTypes.INTEGER, // Define id as an integer
-          autoIncrement: true, // Enable auto-increment
-          primaryKey: true, // Define it as primary key
+          type: DataTypes.INTEGER,
+          autoIncrement: true,
+          primaryKey: true,
         },
 
         name: {
@@ -83,7 +83,7 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
         timestamps: true,
         underscored: true,
         tableName: "Products", // Ensure this matches your actual table name
-        paranoid: true, // Enable soft deletion handling
+      
       }
     );
   }

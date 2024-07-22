@@ -25,6 +25,21 @@ class productController {
       next(error);
     }
   }
+
+  async edit(req:Request,res:Response,next: NextFunction) {
+
+     try{
+    const productId = parseInt(req.params.id, 10);
+    const data = req.body;
+    const token = getDecodedToken(req.get("Authorization"));
+    const userId = token.user.userId;
+     await this.productService.editValidate(productId,data,userId);
+    await this.productService.edit(productId,data);
+   res.json({"success":true});
+     }catch(error){
+      next(error);
+     }
+  }
 }
 const productRepository = new ProductRepository();
 const imageRepository = new ImageRepository();

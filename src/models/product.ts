@@ -78,6 +78,9 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
       },
 
       {
+        createdAt: 'created_at', // Map createdAt to created_at column
+        updatedAt: 'updated_at', // Map updatedAt to updated_at column
+        deletedAt:'deleted_at', // Map deletedAt to deleted_at
         modelName: "Product",
         sequelize,
         timestamps: true,
@@ -103,9 +106,10 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
     });
     this.hasMany(Image, {
       foreignKey: "imageable_id",
+      as: "images",
       constraints: false,
       scope: {
-        imageableType: "product",
+        imageable_type: "product",
       },
     });
   }

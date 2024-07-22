@@ -22,7 +22,6 @@ export class ImageRepository implements ImageInterface {
   }
 
   async update(imageName: string, profileId: number) {
-    console.log(imageName);
     await Image.update(
       { url: imageName },
       { where: { imageable_id: profileId } }
@@ -36,11 +35,31 @@ export class ImageRepository implements ImageInterface {
     await image.destroy();
   }
 
-  async createProductImage(image:string, productId:number){
+  async createProductImage(image: string, productId: number) {
     return await Image.create({
       url: image,
       imageable_id: productId,
       imageable_type: "product",
+    });
+  }
+
+  async editProduct(newImages: any) {
+    for (const image in newImages) {
+      const imageName = newImages[image];
+      await Image.update({ url: imageName }, { where: { id: image } });
+    }
+  }
+
+  async findById(id: string) {
+    return await Image.findByPk(id);
+  }
+  async getImagesByIdes(imageIdes: any) {
+    return await Image.findAll({
+      where: {
+        id: {
+          [Op.in]: imageIdes,
+        },
+      },
     });
   }
 }

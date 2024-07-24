@@ -108,7 +108,6 @@ export class ProductService {
   }
 
   async editProductImage(product: any, data: any) {
-
     const images = data.images;
     const imageIdes = [];
     for (const image in images) {
@@ -135,7 +134,6 @@ export class ProductService {
       });
     });
 
-  
     const newImages = data.images;
 
     for (const image in newImages) {
@@ -173,7 +171,12 @@ export class ProductService {
       }
     }
     await this.productRepository.edit(productId, data);
-
-
+  }
+  async findById(id: number) {
+    return await this.productRepository.findById(id);
+    
+  }
+  async list(data:any){
+    return await this.productRepository.list(data);
   }
 }

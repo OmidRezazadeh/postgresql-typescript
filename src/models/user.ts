@@ -1,8 +1,9 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
-import Profile from './profile';
-import Product from './product';
+import { Model, DataTypes, Sequelize } from "sequelize";
+import Profile from "./profile";
+import Product from "./product";
 
-import Role from './role';
+import Role from "./role";
+import WalletTransaction from "./walletTransaction";
 // Define an interface for User attributes
 interface UserAttributes {
   id?: number;
@@ -19,14 +20,13 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public name!: string; // Define lastName as a public property of type string
   public email!: string; // Define email as a public property of type string
   public password!: string; // Define password as a public property of type string
- 
+
   // Timestamps - readonly ensures these properties cannot be modified
-  public  created_at!: Date;
-  public  updated_at!: Date;
+  public created_at!: Date;
+  public updated_at!: Date;
 
   // A static method to initialize the User model
   static initialize(sequelize: Sequelize) {
-
     User.init(
       // Define model attributes
       {
@@ -51,42 +51,48 @@ class User extends Model<UserAttributes> implements UserAttributes {
         created_at: {
           type: DataTypes.DATE, // Define createdAt as Date
           allowNull: false, // Disallow null values
-          defaultValue: DataTypes.NOW 
+          defaultValue: DataTypes.NOW,
         },
         updated_at: {
           type: DataTypes.DATE, // Define updatedAt as Date
           allowNull: false, // Disallow null values
-          defaultValue: DataTypes.NOW 
+          defaultValue: DataTypes.NOW,
         },
       },
       // Define model options
       {
         sequelize, // Pass the Sequelize instance
-        modelName: 'User', // Specify the model name
+        modelName: "User", // Specify the model name
         timestamps: false, // Enable timestamps
         underscored: true, // Use snake_case for column names
-        tableName: 'Users',
-
+        tableName: "Users",
       }
     );
- 
   }
-  static associate(models: { Profile: typeof Profile; Role: typeof Role; Product: typeof Product;}) {
+  static associate(models: {
+    Profile: typeof Profile;
+    Role: typeof Role;
+    Product: typeof Product;
+    WalletTransaction: typeof WalletTransaction;
+  }) {
+    this.hasMany(WalletTransaction, {
+      foreignKey: "user_id",
+      as: "walletTransactions",
+    });
     this.hasOne(Profile, {
-       foreignKey: 'user_id',
-        as: 'profile'
-       });
-       
-       this.hasMany(Product, {
-        foreignKey:"user_id",
-        as:'products',
-       })
-    this.belongsToMany(models.Role, {
-      through: 'UserRole',
-      foreignKey: 'user_id',
-      as: 'roles',
+      foreignKey: "user_id",
+      as: "profile",
     });
 
+    this.hasMany(Product, {
+      foreignKey: "user_id",
+      as: "products",
+    });
+    this.belongsToMany(models.Role, {
+      through: "UserRole",
+      foreignKey: "user_id",
+      as: "roles",
+    });
   }
 }
 

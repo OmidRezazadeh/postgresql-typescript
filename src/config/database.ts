@@ -6,6 +6,7 @@ import UserRole from "../models/userRole";
 import Product from "../models/product";
 import Category from "../models/category";
 import Image from "../models/image";
+import WalletTransaction from "../models/walletTransaction"
 interface DBConfig {
   database: string;
   username: string;
@@ -39,13 +40,15 @@ UserRole.initialize(connectDB);
 Product.initialize(connectDB);
 Category.initialize(connectDB);
 Image.initialize(connectDB);
+WalletTransaction.initialize(connectDB);
 
 // Set up associations
-User.associate({ Profile, Role,Product });
+User.associate({ Profile, Role,Product,WalletTransaction });
 Profile.associate({ User,Image });
 Role.associate({ User });
 Product.associate({ Category,User,Image });
 Image.associate({ Profile });
+WalletTransaction.associate({User});
 // Establish Many-to-Many relationships
 User.belongsToMany(Role, { through: UserRole, foreignKey: 'user_id' });
 Role.belongsToMany(User, { through: UserRole, foreignKey: 'role_id' });

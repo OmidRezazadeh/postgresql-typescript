@@ -7,6 +7,7 @@ import routerProfile from "./profileRoutes";
 import routerCategory from "./categoryRoutes";
 import uploadRouter from "./fileRoutes";
 import ProductRouter from  "./productRoutes"
+import PaymentRouter from "./paymentRoutes";
 router.use(authRoutes);
 router.use("/api/v1/admin/roles", roleRoutes);
 router.use("/api/v1/admin/users", routerUser);
@@ -14,4 +15,5 @@ router.use("/api/v1/profiles",routerProfile);
 router.use("/api/v1/admin/categories", routerCategory);
 router.use("/api/v1/upload",uploadRouter);
 router.use("/api/v1/products",ProductRouter);
+router.use("/api/v1/payments",PaymentRouter);
 export default router;

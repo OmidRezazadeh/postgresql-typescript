@@ -7,10 +7,12 @@ class paymentController {
     this.paymentService = paymentService;
   }
   async pay(req: Request, res: Response, next: NextFunction) {
-
+console.log("ok");
   }
+  async home(req: Request, res: Response, next: NextFunction) {
+    console.log("Home");
 }
-
+}
 
 const paymentRepository =new PaymentRepository()
 const paymentService = new PaymentService(paymentRepository);

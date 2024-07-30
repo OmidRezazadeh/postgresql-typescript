@@ -15,5 +15,6 @@ router.use("/api/v1/profiles",routerProfile);
 router.use("/api/v1/admin/categories", routerCategory);
 router.use("/api/v1/upload",uploadRouter);
 router.use("/api/v1/products",ProductRouter);
-router.use("/api/v1/payments",PaymentRouter);
+router.use(PaymentRouter);
+
 export default router;

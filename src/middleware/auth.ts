@@ -21,6 +21,7 @@ export const authenticated = (req: Request, res: Response, next: NextFunction) =
         const FailedAuthenticateError = new Error('لاگین با مشکل مواجه شد');
         (FailedAuthenticateError as any).status = 400;
         throw FailedAuthenticateError;
+
       }
 
     });

@@ -1,39 +1,40 @@
-import { initialize } from "passport";
-import { Model, DataTypes, Sequelize } from "sequelize";
 
-interface CardItemAttributes {
+import { Model, DataTypes, Sequelize } from "sequelize";
+import User from "./user";
+
+interface CartAttributes {
   id: number;
-  product_id: number;
-  card_id: number;
+  user_id: number;
+  address: string;
   amount: number;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;
 }
-class CardItem extends Model<CardItemAttributes> implements CardItemAttributes {
+class Cart extends Model<CartAttributes> implements CartAttributes {
   id!: number;
-  product_id!: number;
+  user_id!: number;
   amount!: number;
-  card_id!: number;
+  address!: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;
 
   static initialize(sequelize: Sequelize) {
-    CardItem.init({
+    Cart.init({
       id: {
         type:DataTypes.INTEGER,
         autoIncrement:true,
         primaryKey:true
       },
-      product_id:{
+      user_id:{
         type: DataTypes.INTEGER,
       },
       amount:{
         type: DataTypes.INTEGER,
       },
-      card_id:{
-        type: DataTypes.INTEGER,
+      address:{
+        type: DataTypes.STRING,
       },
       created_at: {
         allowNull: false,
@@ -50,21 +51,27 @@ class CardItem extends Model<CardItemAttributes> implements CardItemAttributes {
         type: DataTypes.DATE,
 
       },
-
     },
   {
-    modelName:'cardItem',
+    modelName:'Cart',
     sequelize,
     timestamps:true,
     underscored:true,
-    tableName:'card_items',
+    tableName:'Carts',
     paranoid:true,
     createdAt: 'created_at', // Map createdAt to created_at column
     updatedAt: 'updated_at', // Map updatedAt to updated_at column
     deletedAt:'deleted_at', // Map deletedAt to deleted_at
   }
-  
   )
-
+  };
+  static associate(models:{
+    User:typeof User
+  }){
+    this.belongsTo(User,{
+      foreignKey:"user_id",
+      as:"user"
+    });
+    
   }
 }

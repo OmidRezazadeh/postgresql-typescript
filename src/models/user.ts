@@ -4,6 +4,7 @@ import Product from "./product";
 
 import Role from "./role";
 import WalletTransaction from "./walletTransaction";
+import Cart from "./cart";
 // Define an interface for User attributes
 interface UserAttributes {
   id?: number;
@@ -74,6 +75,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
     Role: typeof Role;
     Product: typeof Product;
     WalletTransaction: typeof WalletTransaction;
+    Cart:typeof Cart;
   }) {
     this.hasMany(WalletTransaction, {
       foreignKey: "user_id",
@@ -93,6 +95,10 @@ class User extends Model<UserAttributes> implements UserAttributes {
       foreignKey: "user_id",
       as: "roles",
     });
+    this.hasMany(Cart,{
+      foreignKey: "user_id",
+      as:"carts",
+    })
   }
 }
 

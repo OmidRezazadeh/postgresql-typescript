@@ -2,6 +2,7 @@ import { Model, DataTypes, Sequelize } from "sequelize";
 import Category from "./category";
 import User from "./user";
 import Image from "./image";
+import CartItem from './cartItem';
 export  interface ProductAttributes {
   id: number;
   name: string;
@@ -94,6 +95,7 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
     Category: typeof Category;
     User: typeof User;
     Image: typeof Image;
+    CartItem:typeof CartItem;
   }) {
     this.belongsTo(Category, {
       foreignKey: "category_id",
@@ -111,7 +113,13 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
       scope: {
         imageable_type: "product",
       },
+     
     });
+    this.hasMany(CartItem,{
+      foreignKey:"product_id",
+      as:"cart_items"
+        
+    })
   }
 }
 export default Product;

@@ -3,7 +3,7 @@ import Product, { ProductAttributes } from "../models/product";
 import Image from "../models/image";
 import { Op } from "sequelize";
 import User from "../models/user";
-import { Console } from "console";
+
 export class ProductRepository implements ProductInterface {
   async store(data: any, userId: number) {
     data.user_id = userId;
@@ -32,6 +32,8 @@ export class ProductRepository implements ProductInterface {
       ],
     });
   }
+
+
   async list(data: any) {
 
     let query: any = {

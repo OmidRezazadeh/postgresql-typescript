@@ -8,7 +8,9 @@ import routerCategory from "./categoryRoutes";
 import uploadRouter from "./fileRoutes";
 import ProductRouter from  "./productRoutes"
 import PaymentRouter from "./paymentRoutes";
+import routerCart from "./CartRoutes";
 router.use(authRoutes);
+router.use("/api/v1/carts", routerCart);
 router.use("/api/v1/admin/roles", roleRoutes);
 router.use("/api/v1/admin/users", routerUser);
 router.use("/api/v1/profiles",routerProfile);

@@ -1,3 +1,3 @@
 export interface CartInterface{
-store(data:any ):Promise<any>
+store(userId: number, cartItems: any,transaction:any):Promise<any>
 }

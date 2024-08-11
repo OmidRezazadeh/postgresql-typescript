@@ -1,12 +1,13 @@
 
 import { Model, DataTypes, Sequelize } from "sequelize";
 import User from "./user";
-
+import CartItem from "./cartItem";
 interface CartAttributes {
-  id: number;
+  id?: number;
   user_id: number;
   address: string;
   amount: number;
+  status:number;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;
@@ -16,6 +17,7 @@ class Cart extends Model<CartAttributes> implements CartAttributes {
   user_id!: number;
   amount!: number;
   address!: string;
+  status!:number;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;
@@ -35,6 +37,10 @@ class Cart extends Model<CartAttributes> implements CartAttributes {
       },
       address:{
         type: DataTypes.STRING,
+      },
+      status:{
+        type: DataTypes.INTEGER,
+        defaultValue:0,
       },
       created_at: {
         allowNull: false,
@@ -57,7 +63,7 @@ class Cart extends Model<CartAttributes> implements CartAttributes {
     sequelize,
     timestamps:true,
     underscored:true,
-    tableName:'Carts',
+    tableName:'Cart',
     paranoid:true,
     createdAt: 'created_at', // Map createdAt to created_at column
     updatedAt: 'updated_at', // Map updatedAt to updated_at column
@@ -66,12 +72,17 @@ class Cart extends Model<CartAttributes> implements CartAttributes {
   )
   };
   static associate(models:{
-    User:typeof User
+    User:typeof User;
+    CartItem:typeof CartItem;
   }){
     this.belongsTo(User,{
       foreignKey:"user_id",
       as:"user"
     });
-    
+    this.hasMany(CartItem,{
+      foreignKey:"cart_id",
+      as:"CartItem"
+    }); 
   }
 }
+export default Cart;

@@ -1,10 +1,12 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
+import Product from "./product";
+import Cart from "./cart";
 
 interface CartItemAttributes {
-  id: number;
+  id?: number;
   product_id: number;
   quantity: number;
-  cart_id:number
+  cart_id: number;
   amount: number;
   created_at?: Date;
   updated_at?: Date;
@@ -15,60 +17,71 @@ class CartItem extends Model<CartItemAttributes> implements CartItemAttributes {
   product_id!: number;
   amount!: number;
   cart_id!: number;
-  quantity!:number;
+  quantity!: number;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;
 
   static initialize(sequelize: Sequelize) {
-    CartItem.init({
-      id: {
-        type:DataTypes.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
+    CartItem.init(
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          autoIncrement: true,
+          primaryKey: true,
+        },
+        product_id: {
+          type: DataTypes.INTEGER,
+        },
+        amount: {
+          type: DataTypes.INTEGER,
+        },
+        quantity: {
+          type: DataTypes.INTEGER,
+        },
+        cart_id: {
+          type: DataTypes.INTEGER,
+        },
+        created_at: {
+          allowNull: false,
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+        },
+        updated_at: {
+          allowNull: false,
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+        },
+        deleted_at: {
+          allowNull: true,
+          type: DataTypes.DATE,
+        },
       },
-      product_id:{
-        type: DataTypes.INTEGER,
-      },
-      amount:{
-        type: DataTypes.INTEGER,
-      },
-      quantity:{
-        type: DataTypes.INTEGER,
-      },
-      cart_id:{
-        type: DataTypes.INTEGER,
-      },
-      created_at: {
-        allowNull: false,
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-      },
-      updated_at: {
-        allowNull: false,
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-      },
-      deleted_at: {
-        allowNull: true,
-        type: DataTypes.DATE,
-
-      },
-
-    },
-  {
-    modelName:'CartItem',
-    sequelize,
-    timestamps:true,
-    underscored:true,
-    tableName:'CartItems',
-    paranoid:true,
-    createdAt: 'created_at', // Map createdAt to created_at column
-    updatedAt: 'updated_at', // Map updatedAt to updated_at column
-    deletedAt:'deleted_at', // Map deletedAt to deleted_at
+      {
+        modelName: "CartItem",
+        sequelize,
+        
+        timestamps: true,
+        underscored: true,
+        tableName: "CartItem",
+        paranoid: true,
+        createdAt: "created_at", // Map createdAt to created_at column
+        updatedAt: "updated_at", // Map updatedAt to updated_at column
+        deletedAt: "deleted_at", // Map deletedAt to deleted_at
+      }
+    );
   }
-  
-  )
 
+  static associate(models: { Product: typeof Product; Cart: typeof Cart }) {
+    this.belongsTo(Product, {
+      foreignKey: "product_id",
+      as: "product",
+    });
+    this.belongsTo(Cart, {
+      foreignKey: "cart_id",
+      as: "cart",
+    });
   }
 }
+
+export default CartItem;

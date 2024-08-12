@@ -3,7 +3,7 @@ import Profile from "./profile";
 import Product from "./product";
 
 import Role from "./role";
-import WalletTransaction from "./walletTransaction";
+
 import Cart from "./cart";
 // Define an interface for User attributes
 interface UserAttributes {
@@ -74,13 +74,9 @@ class User extends Model<UserAttributes> implements UserAttributes {
     Profile: typeof Profile;
     Role: typeof Role;
     Product: typeof Product;
-    WalletTransaction: typeof WalletTransaction;
+
     Cart:typeof Cart;
   }) {
-    this.hasMany(WalletTransaction, {
-      foreignKey: "user_id",
-      as: "walletTransactions",
-    });
     this.hasOne(Profile, {
       foreignKey: "user_id",
       as: "profile",

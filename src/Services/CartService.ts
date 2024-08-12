@@ -1,7 +1,9 @@
-import { throwCustomError } from "../utils/errorHandling";
+import { CustomError, throwCustomError } from "../utils/errorHandling";
 import { ProductRepository } from "../Repositories/ProductRepository";
 import { CartRepository } from "../Repositories/CartRepository";
 import { CartItemRepository } from "../Repositories/CartItemRepository";
+
+
 export class CartService {
   private productRepository: ProductRepository;
   private cartRepository: CartRepository;
@@ -74,21 +76,38 @@ export class CartService {
     }
   }
   async getProductAmount(data: any) {
+    // Extract cart items from the provided data
     const cartItems = data.cart_items;
+
+    // Initialize the total sum for all items in the cart
     let totalSum = 0;
+
+    // Iterate over each item in the cart
     for (const item of cartItems) {
+      // Fetch the product details by its ID from the product repository
       const product = await this.productRepository.findById(item.product_id);
+
+      // Get the product price, defaulting to 0 if the product is not found
       const productPrice = product?.price || 0;
+
+      // Calculate the total price for the item based on its quantity
       item.total_price = productPrice * item.quantity;
+
+      // Accumulate the total price into the total sum
       totalSum += item.total_price;
     }
+
+    // Assign the calculated total sum to the cart items
     cartItems.total_sum = totalSum;
+
+    // Assign the address from the provided data to the cart items
     cartItems.address = data.address;
+
+    // Return the updated cart items with total sum and address
     return cartItems;
   }
 
   async store(data: any, userId: number, transaction: any) {
-    
     const cartItemData = await this.getProductAmount(data);
     const cart = await this.cartRepository.store(
       userId,
@@ -103,4 +122,15 @@ export class CartService {
     );
     return cart;
   }
+  async find(cartId: number) {
+    const cart = await this.cartRepository.find(cartId);
+    if (!cart) {
+      throwCustomError("سبد خریدی یافت نشد", 404);
+    } else {
+      return cart;
+    }
+  }
+
+  
+
 }

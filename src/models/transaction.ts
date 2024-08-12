@@ -1,13 +1,14 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
 import User from "../models/user";
-import WalletTransaction from "./walletTransaction";
+import Cart from "./cart";
 interface transactionAttributes {
-  id: number;
+  id?: number;  // Make this optional
+
   user_id: number;
   amount: number;
   type: number;
   transaction_result:string;
-  wallet_transaction_id: number;
+  cart_id: number;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -18,7 +19,7 @@ class Transaction
   id!: number;
   user_id!: number;
   transaction_result!:string;
-  wallet_transaction_id!: number;
+  cart_id!: number;
   amount!: number;
   type!: number;
   created_at?: Date;
@@ -48,11 +49,11 @@ class Transaction
           type: DataTypes.STRING,
           allowNull: false,
         },
-        wallet_transaction_id: {
+        cart_id: {
           type: DataTypes.INTEGER,
           allowNull: false,
           references: {
-            model: "Transactions",
+            model: "Cart",
             key: "id",
           },
         },
@@ -85,12 +86,12 @@ class Transaction
     );
   }
 
-  static associate(model: { User: typeof User; WalletTransaction: typeof WalletTransaction}) {
+  static associate(model: { User: typeof User; Cart: typeof Cart}) {
     this.belongsTo(User, {
       foreignKey: "user_id",
       as: "user",
     });
-    this.belongsTo(WalletTransaction, { as: 'wallet_transaction', foreignKey: 'wallet_transaction_id' });
+    this.belongsTo(Cart, { as: 'Cart', foreignKey: 'cart_id' });
   }
 }
 export default Transaction;

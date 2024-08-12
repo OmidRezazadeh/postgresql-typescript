@@ -25,9 +25,9 @@ class Cart extends Model<CartAttributes> implements CartAttributes {
   static initialize(sequelize: Sequelize) {
     Cart.init({
       id: {
-        type:DataTypes.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
+        type: DataTypes.INTEGER, // Define id as an integer
+        autoIncrement: true, // Enable auto-increment
+        primaryKey: true, // Define it as primary key
       },
       user_id:{
         type: DataTypes.INTEGER,

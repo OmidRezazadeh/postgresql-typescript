@@ -7,7 +7,7 @@ import routerProfile from "./profileRoutes";
 import routerCategory from "./categoryRoutes";
 import uploadRouter from "./fileRoutes";
 import ProductRouter from  "./productRoutes"
-import PaymentRouter from "./paymentRoutes";
+import PaymentRouter from "./transactionRoutes";
 import routerCart from "./CartRoutes";
 router.use(authRoutes);
 router.use("/api/v1/carts", routerCart);

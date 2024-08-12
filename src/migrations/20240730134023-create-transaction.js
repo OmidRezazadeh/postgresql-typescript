@@ -18,7 +18,7 @@ module.exports = {
       type: {
         type: Sequelize.INTEGER
       },
-      Wallet_transaction_id: {
+      cart_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
       },

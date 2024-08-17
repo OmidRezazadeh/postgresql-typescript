@@ -8,6 +8,7 @@ import path from "path";
 import './config/auth';
 const app = express();
 import dotenv from "dotenv";
+import swaggerDocs  from "./utils/swagger";
 app.use(express.json());
 
 dotenv.config();
@@ -46,6 +47,7 @@ connectDB
     app.listen(PORT, () =>
       console.log(`Node API app is running in mode on port ${PORT}`)
     );
+    swaggerDocs(app, 3000)
   })
   .catch((err: Error) => {
     console.error("Unable to connect to the database:", err);

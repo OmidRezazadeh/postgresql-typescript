@@ -120,7 +120,7 @@ export class CartService {
       transaction,
       cartItemData
     );
-    return cart;
+    
   }
   async find(cartId: number) {
     const cart = await this.cartRepository.find(cartId);

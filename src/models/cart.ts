@@ -2,6 +2,7 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
 import User from "./user";
 import CartItem from "./cartItem";
+import Transaction from "./transaction";
 interface CartAttributes {
   id?: number;
   user_id: number;
@@ -74,6 +75,7 @@ class Cart extends Model<CartAttributes> implements CartAttributes {
   static associate(models:{
     User:typeof User;
     CartItem:typeof CartItem;
+    Transaction: typeof Transaction;
   }){
     this.belongsTo(User,{
       foreignKey:"user_id",
@@ -83,6 +85,10 @@ class Cart extends Model<CartAttributes> implements CartAttributes {
       foreignKey:"cart_id",
       as:"CartItem"
     }); 
+    this.hasMany(Transaction,{
+       foreignKey:"cart_id",
+      as:"Transaction"
+    })
   }
 }
 export default Cart;

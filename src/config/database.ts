@@ -6,7 +6,6 @@ import UserRole from "../models/userRole";
 import Product from "../models/product";
 import Category from "../models/category";
 import Image from "../models/image";
-
 import Transaction from "../models/transaction";
 import Cart from "../models/cart";
 import CartItem from "../models/cartItem";
@@ -43,7 +42,6 @@ UserRole.initialize(connectDB);
 Product.initialize(connectDB);
 Category.initialize(connectDB);
 Image.initialize(connectDB);
-
 Transaction.initialize(connectDB);
 Cart.initialize(connectDB);
 CartItem.initialize(connectDB);
@@ -56,7 +54,7 @@ Product.associate({ Category,User,Image,CartItem });
 Image.associate({ Profile });
 
 Transaction.associate({Cart,User});
-Cart.associate({User,CartItem});
+Cart.associate({User,CartItem,Transaction});
 CartItem.associate({Cart,Product})
 
 // Establish Many-to-Many relationships

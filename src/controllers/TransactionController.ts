@@ -28,7 +28,6 @@ class transactionController {
       const userId = token.user.userId;
       const response = await this.transactionService.pay(cart);
       await this.transactionService.store(userId, response, cart);
-      console.log(response);
       res.status(200).json(response.paymentUrl);
     } catch (error) {
       next(error);
@@ -39,6 +38,7 @@ class transactionController {
     const paymentCode = req.query.trackId;
     const paymentStatus = req.query.status;
     const transaction = await this.transactionService.processTransaction(paymentCode,paymentStatus);
+    res.status(200).json({"message":transaction});
   }
 }
 

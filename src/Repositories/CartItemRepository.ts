@@ -10,9 +10,10 @@ export class CartItemRepository implements CartItemInterface {
           {
             cart_id: cartId,
             product_id: cartItem.product_id,
-            amount: cartItem.total_price,
+            amount:   isNaN(cartItem.total_price) ? 0 : cartItem.total_price,
             quantity: cartItem.quantity,
           },
+        
           { transaction}
         );
       }

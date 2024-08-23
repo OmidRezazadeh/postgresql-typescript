@@ -37,7 +37,6 @@ class cartController {
 
         // Commit the transaction to save changes to the database
         await transaction.commit();
-
         // Send a successful response with the stored cart data
         res.status(200).json({ data: cart });
     } catch (err) {

@@ -41,6 +41,7 @@ export class CartService {
 
     // Loop through each cart item to perform validation
     for (const cartItem of cartItems) {
+
       // Check if the product ID is provided
       if (!cartItem.product_id) {
         // Throw a custom error if the product ID is missing
@@ -65,9 +66,9 @@ export class CartService {
       } else {
         // Check if the product is out of stock or if the requested quantity exceeds available stock
         if (
-          product.count == 0 || // Product is out of stock
-          cartItem.quantity >= product.count || // Requested quantity exceeds available stock
-          product.status == 0 // Product is inactive
+          product.count == 0 ||
+          cartItem.quantity >= product.count ||
+          product.status == 0
         ) {
           // Throw a custom error if the product is not available
           throwCustomError("محصولی موجود نیست ", 400);
@@ -78,20 +79,19 @@ export class CartService {
   async getProductAmount(data: any) {
     // Extract cart items from the provided data
     const cartItems = data.cart_items;
-
     // Initialize the total sum for all items in the cart
     let totalSum = 0;
 
     // Iterate over each item in the cart
     for (const item of cartItems) {
       // Fetch the product details by its ID from the product repository
-      const product = await this.productRepository.findById(item.product_id);
+      let product = await this.productRepository.findById(item.product_id);
 
       // Get the product price, defaulting to 0 if the product is not found
-      const productPrice = product?.price || 0;
-
+      const productPrice = product?.dataValues?.price || 0;
+              
       // Calculate the total price for the item based on its quantity
-      item.total_price = productPrice * item.quantity;
+      item.total_price = productPrice * item.count;
 
       // Accumulate the total price into the total sum
       totalSum += item.total_price;
@@ -107,8 +107,11 @@ export class CartService {
     return cartItems;
   }
 
+
+
   async store(data: any, userId: number, transaction: any) {
     const cartItemData = await this.getProductAmount(data);
+
     const cart = await this.cartRepository.store(
       userId,
       cartItemData,
@@ -120,7 +123,7 @@ export class CartService {
       transaction,
       cartItemData
     );
-    
+    return cart;
   }
   async find(cartId: number) {
     const cart = await this.cartRepository.find(cartId);
@@ -131,6 +134,6 @@ export class CartService {
     }
   }
 
-  
+
 
 }

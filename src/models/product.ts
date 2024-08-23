@@ -117,7 +117,7 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
     });
     this.hasMany(CartItem,{
       foreignKey:"product_id",
-      as:"cart_items"
+      as:"CartItem"
         
     })
   }

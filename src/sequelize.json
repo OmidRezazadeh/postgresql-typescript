@@ -1,10 +1,12 @@
 {
   "development": {
     "username": "postgres",
-    "password": "admin",
+    "password": "123",
     "database": "postgres",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "migrationStoragePath": "src/migrations" 
+
   },
   "test": {
     "username": "root",
@@ -15,9 +17,12 @@
   },
   "production": {
     "username": "postgres",
-    "password": "admin",
+    "password": "123",
     "database": "postgres",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "migrationStoragePath": "src/migrations"
   }
 }
+
+

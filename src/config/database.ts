@@ -25,7 +25,7 @@ interface DBConfig {
 const dbConfig: DBConfig = {
   database: "postgres",
   username: "postgres",
-  password: "admin",
+  password: "123",
   host: "localhost",
   dialect: "postgres",
   pool: {

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec ts-node src/index.ts",
-    "migrate": "npx sequelize-cli db:migrate:undo"
+    "migrate": "npx sequelize-cli db:migrate --config src/sequelize.json",
+      "seed": "npx sequelize-cli db:seed:all --config src/sequelize.json"
   },
   "keywords": [],
   "author": "",
@@ -36,7 +37,6 @@
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
-    "sequelize-cli": "^6.6.2",
     "sequelize-typescript": "^2.1.6",
     "sharp": "^0.33.4",
     "swagger-jsdoc": "^6.2.8",
@@ -52,6 +52,7 @@
     "@types/sequelize": "^4.28.20",
     "@types/sharp": "^0.32.0",
     "nodemon": "^3.1.0",
+    "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }

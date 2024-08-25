@@ -20,7 +20,7 @@ export class TransactionRepository implements TransactionInterface {
       where: { transaction_result: paymentCode },
     });
   }
-  async failed(transactionId: number, transaction: any) {
+  async failed(transactionId: number) {
     try {
       await Transaction.update(
         { type: 2 },
@@ -32,49 +32,15 @@ export class TransactionRepository implements TransactionInterface {
     }
   }
 
-  async success(transactionId: number, transaction: any) {
+  async success(transactionId: number) {
     try {
 
       await Transaction.update({ type: 3 },
         {
-          where: { id: transactionId },
-          transaction // add the transaction inside the options object
+          where: { id: transactionId }
         });
 
-      const transactionModel = await Transaction.findOne({
-        where: { id: transactionId },
-        include: [
-          {
-            model: Cart,
-            as: "Cart",
-            include: [
-              {
-                model: CartItem,
-                as: "CartItem",
-                include: [
-                  {
-                    model: Product,
-                    as: "product"  // Use the correct alias here
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }) as Transaction & {
-        Cart: Cart & {
-          CartItem: Array<CartItem & { product: Product }>
-        }
-      };
-
-
-
-      if (transactionModel && transactionModel.Cart) {
-        const cartItems = transactionModel.Cart.CartItem;
-        cartItems.forEach(cartItem => {
-          console.log(cartItem.product); // Access each associated Product here
-        });
-      }
+      
     } catch (err) {
       console.log(err);
     }

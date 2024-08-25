@@ -14,28 +14,26 @@ export class TransactionService {
   }
 
   async processTransaction(paymentCode: any, paymentStatus: any) {
-    let transaction;
+
     let message;
     try {
       const transactionData = await this.transactionRepository.find(paymentCode);
-      const sequelize = connectDB;
-      transaction = await sequelize.transaction();
+
       if (transactionData) {
         const transactionId = transactionData.id;
         if (paymentStatus === "3") {
-          await this.transactionRepository.failed(transactionId, transaction);
+          await this.transactionRepository.failed(transactionId);
           
         }
         if (paymentStatus === "2") {
           console.log("paymentStatus");
-          await this.transactionRepository.success(transactionId, transaction);
+          await this.transactionRepository.success(transactionId);
           message=" پرداخت موفق ";
         }
       }
-      await transaction.commit();
+    
       return message;
     } catch (error) {
-      if (transaction) await transaction.rollback();
       console.log(error);
     }
   }

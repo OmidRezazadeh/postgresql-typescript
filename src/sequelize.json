@@ -3,7 +3,7 @@
     "username": "postgres",
     "password": "123",
     "database": "postgres",
-    "host": "localhost",
+    "host": "db_posgres",  
     "dialect": "postgres",
     "migrationStoragePath": "src/migrations" 
 
@@ -19,7 +19,7 @@
     "username": "postgres",
     "password": "123",
     "database": "postgres",
-    "host": "localhost",
+    "host": "db_posgres",
     "dialect": "postgres",
     "migrationStoragePath": "src/migrations"
   }

@@ -26,7 +26,7 @@ const dbConfig: DBConfig = {
   database: "postgres",
   username: "postgres",
   password: "123",
-  host: "localhost",
+  host: "db_posgres",
   dialect: "postgres",
   pool: {
     max: 5,

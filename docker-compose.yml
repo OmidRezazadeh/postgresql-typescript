@@ -2,51 +2,74 @@ version: '3.8'
 
 services:
   app:
+    container_name: shop
+    # Build the app service using the Dockerfile in the current directory
     build: 
       context: .
       dockerfile: Dockerfile
+    # Expose and map port 3000 of the container to port 3000 on the host
     ports:
       - "3000:3000"
+    # Mount the current directory to /usr/src/app in the container for live code updates
+    # Also mount node_modules to prevent overwriting it with the local directory's content
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    # Ensure the app service starts only after the db_posgres service is ready
     depends_on:
       - db_posgres
+    # Load environment variables from the .env file
     env_file:
       - .env
+    # Use the custom 'app-shop' network for internal communication
     networks:
       - app-shop
 
-  db_posgres:
+  db_posgres: 
+    container_name: postgresql
+    # Use the official Postgres 15 image
     image: postgres:15
+    # Set environment variables for Postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: postgres
+    # Expose and map port 5432 for the Postgres database
     ports:
       - "5432:5432"
+    # Mount a named volume to persist Postgres data
     volumes:
       - db_data:/var/lib/postgresql/data
+    # Use the custom 'app-shop' network for internal communication
     networks:
       - app-shop
 
   pgadmin:
+    container_name: pgadmin 
+    # Use the official pgAdmin image for database management
     image: dpage/pgadmin4
+    # Set environment variables for pgAdmin default login credentials
     environment:
       PGADMIN_DEFAULT_EMAIL: "orprogrammer@gmail.com"
       PGADMIN_DEFAULT_PASSWORD: "123"
+    # Expose and map port 8080 on the host to port 80 in the container for web access
     ports:
       - "8080:80"
+    # Mount a named volume to persist pgAdmin data
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    # Ensure pgAdmin starts only after the db_posgres service is ready
     depends_on:
       - db_posgres
+    # Use the custom 'app-shop' network for internal communication
     networks:
       - app-shop
 
+# Define named volumes to persist data for Postgres and pgAdmin
 volumes:
   db_data:
   pgadmin_data:
 
+# Define a custom network for service-to-service communication
 networks:
   app-shop:

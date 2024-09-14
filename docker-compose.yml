@@ -21,9 +21,9 @@ services:
     # Load environment variables from the .env file
     env_file:
       - .env
-    # Use the custom 'app-shop' network for internal communication
+    # Use the custom 'app-network' network for internal communication
     networks:
-      - app-shop
+      - app-network
 
   db_posgres: 
     container_name: postgresql
@@ -31,20 +31,22 @@ services:
     image: postgres:15
     # Set environment variables for Postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     # Expose and map port 5432 for the Postgres database
     ports:
       - "5432:5432"
     # Mount a named volume to persist Postgres data
     volumes:
       - db_data:/var/lib/postgresql/data
-    # Use the custom 'app-shop' network for internal communication
+    # Use the custom 'app-network' network for internal communication
     networks:
-      - app-shop
+      - app-network
+      - pgadmin-network
 
-  pgadmin:
+
+  pgadmin: 
     container_name: pgadmin 
     # Use the official pgAdmin image for database management
     image: dpage/pgadmin4
@@ -63,7 +65,7 @@ services:
       - db_posgres
     # Use the custom 'app-shop' network for internal communication
     networks:
-      - app-shop
+      - app-network 
 
 # Define named volumes to persist data for Postgres and pgAdmin
 volumes:
@@ -72,4 +74,5 @@ volumes:
 
 # Define a custom network for service-to-service communication
 networks:
-  app-shop:
+   app-network:   # network for app and db communication
+   pgadmin-network: # network for pgadmin and db communication

@@ -14,4 +14,4 @@ RUN npm install
 COPY . .
 
 # Start the application using the 'start' script defined in package.json
-CMD ["npm", "start"]
+CMD ["npx", "nodemon", "src/index.ts"]

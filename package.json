@@ -7,12 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec ts-node src/index.ts",
     "migrate": "npx sequelize-cli db:migrate --config src/sequelize.json",
-      "seed": "npx sequelize-cli db:seed:all --config src/sequelize.json"
+    "seed": "npx sequelize-cli db:seed:all --config src/sequelize.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^9.0.2",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-session": "^2.0.49",
     "@types/express-session": "^1.18.0",

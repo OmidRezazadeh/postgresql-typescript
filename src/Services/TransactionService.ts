@@ -1,6 +1,7 @@
 import { TransactionRepository } from "../Repositories/TransactionRepository";
-import { payZibal } from "../utils/zarinPal";
-
+import Transaction from "../models/transaction";
+ import { ZarinPal } from "../payment/ZarinpalGateway";
+import { Zibal } from "../payment/ZibalGateway";
 // TransactionService is responsible for handling transactions, including processing payments and storing transaction data.
 export class TransactionService {
   // The TransactionRepository is used to interact with the transaction data in the database.
@@ -13,7 +14,18 @@ export class TransactionService {
 
   // The pay method initiates the payment process using the payZibal utility.
   async pay(cart: any) {
-    return await payZibal(cart);
+      let type=Transaction.PAYMENT_GATEWAY_TYPE_ZIBAL;
+    if ( type === Transaction.PAYMENT_GATEWAY_TYPE_ZIBAL ) {
+      const zibalGateway = new Zibal();
+     return  zibalGateway.processPayment(cart);
+       
+   }else if ( type === Transaction.PAYMENT_GATEWAY_TYPE_ZARINPAL ){
+    
+    const zirinpalGatewa = new ZarinPal();
+   return zirinpalGatewa.processPayment(cart);
+  
+   }
+  
   }
 
   // The store method saves the transaction details in the database, including userId, payment response, and cart information.

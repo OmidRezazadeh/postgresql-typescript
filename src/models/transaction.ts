@@ -1,9 +1,9 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
 import User from "../models/user";
 import Cart from "./cart";
+
 interface transactionAttributes {
   id?: number;  // Make this optional
-
   user_id: number;
   amount: number;
   type: number;
@@ -11,7 +11,9 @@ interface transactionAttributes {
   cart_id: number;
   created_at?: Date;
   updated_at?: Date;
+
 }
+
 class Transaction
   extends Model<transactionAttributes>
   implements transactionAttributes
@@ -24,6 +26,8 @@ class Transaction
   type!: number;
   created_at?: Date;
   updated_at?: Date;
+  static PAYMENT_GATEWAY_TYPE_ZIBAL: number = 1; 
+  static PAYMENT_GATEWAY_TYPE_ZARINPAL: number = 2;
   static initialize(sequelize: Sequelize) {
     Transaction.init(
       {

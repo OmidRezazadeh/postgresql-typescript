@@ -9,11 +9,11 @@ export class TransactionRepository implements TransactionInterface {
 
   // The 'store' method creates a new transaction record
   async store(userId: number, response: any, cart: any) {
-    // Create and return a new transaction with the provided details
+
     return await Transaction.create({
       user_id: userId, // ID of the user making the transaction
       amount: cart.amount, // Total amount of the transaction from the cart
-      transaction_result: response.trackId, // Unique track ID from the payment gateway response
+      transaction_result:response.trackId , // Unique track ID from the payment gateway response
       type: 1, // Initial transaction type (e.g., 1 for pending)
       cart_id: cart.id, // ID of the associated cart
     });

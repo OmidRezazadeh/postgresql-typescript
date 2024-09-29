@@ -71,7 +71,7 @@ export class CartService {
           product.status == 0
         ) {
           // Throw a custom error if the product is not available
-          throwCustomError("محصولی موجود نیست ", 400);
+          throwCustomError("111محصولی موجود نیست ", 400);
         }
       }
     }

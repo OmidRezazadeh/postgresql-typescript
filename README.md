@@ -47,18 +47,7 @@ Interactive Swagger integration
 Clear request/response schemas
 Authentication flow documentation
 
-src/
-├── config/         # Configuration files
-├── controllers/    # Request handlers
-├── interfaces/     # TypeScript interfaces
-├── middleware/     # Express middleware
-├── migrations/     # Database migrations
-├── models/         # Sequelize models
-├── repositories/   # Data access layer
-├── routes/         # API routes
-├── services/       # Business logic
-├── utils/          # Helper functions
-└── validations/    # Request validation schemas
+
 
 
 🗄️ Database Schema
